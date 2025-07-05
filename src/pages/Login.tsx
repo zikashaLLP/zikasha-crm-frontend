@@ -87,7 +87,7 @@ export default function Login() {
   return (
     <>
       <div className="flex">
-        <div className="flex min-h-screen items-center justify-center bg-gray-50 w-full md:w-1/2">
+        <div className="flex min-h-screen items-center bg-white justify-center w-full md:w-1/2">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
