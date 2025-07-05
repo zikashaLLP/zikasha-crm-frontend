@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +29,21 @@ import { toast } from "sonner";
 import api from "@/api/axios";
 import { Plus, MoreVerticalIcon } from "lucide-react";
 
+// Type definitions
+interface Category {
+	id: number;
+	name: string;
+	slug: string;
+	createdAt: string;
+	updatedAt: string;
+	agency_id: number;
+}
+
+interface CategoryCardProps {
+	category: Category;
+	deleteCategory: (categoryId: number) => Promise<void>;
+}
+
 // Zod schema
 const categorySchema = z.object({
 	name: z.string().min(1, "Name is required"),
@@ -37,8 +53,11 @@ const categorySchema = z.object({
 		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be lowercase letters, numbers and hyphens only"),
 });
 
+// Type inference from Zod schema
+type CategoryFormData = z.infer<typeof categorySchema>;
+
 // Slugify function
-function slugify(text) {
+function slugify(text: string): string {
 	return text
 		.toString()
 		.toLowerCase()
@@ -48,15 +67,15 @@ function slugify(text) {
 }
 
 export default function Settings() {
-	const [categories, setCategories] = useState([]);
-	const [loading, setLoading] = useState(false);
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [categories, setCategories] = useState<Category[]>([]);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 	// Fetch categories
-	const fetchCategories = () => {
+	const fetchCategories = (): void => {
 		setLoading(true);
 		api
-			.get("/categories")
+			.get<Category[]>("/categories")
 			.then((res) => setCategories(res.data))
 			.catch(() => toast.error("Failed to load categories"))
 			.finally(() => setLoading(false));
@@ -74,12 +93,12 @@ export default function Settings() {
 		reset,
 		setValue,
 		formState: { errors, isSubmitting },
-	} = useForm({
+	} = useForm<CategoryFormData>({
 		resolver: zodResolver(categorySchema),
 	});
 
 	// Track if slug manually edited
-	const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
+	const [slugManuallyEdited, setSlugManuallyEdited] = useState<boolean>(false);
 	const nameValue = watch("name");
 
 	// Auto update slug from name if slug not manually edited
@@ -90,14 +109,14 @@ export default function Settings() {
 		}
 	}, [nameValue, slugManuallyEdited, setValue]);
 
-	function onSlugChange(e) {
+	function onSlugChange(e: React.ChangeEvent<HTMLInputElement>): void {
 		setSlugManuallyEdited(true);
 		setValue("slug", e.target.value);
 	}
 
-	async function onSubmit(data) {
+	async function onSubmit(data: CategoryFormData): Promise<void> {
 		try {
-			await api.post("/categories", data);
+			await api.post<Category>("/categories", data);
 			toast.success("Category created successfully!");
 			reset();
 			setSlugManuallyEdited(false);
@@ -108,7 +127,7 @@ export default function Settings() {
 		}
 	}
 
-	async function deleteCategory(categoryId) {
+	async function deleteCategory(categoryId: number): Promise<void> {
 		if (!window.confirm("Are you sure you want to delete this category?")) return;
 
 		try {
@@ -122,7 +141,6 @@ export default function Settings() {
 
 	return (
 		<div className="max-w-5xl mx-auto">
-
 			<div className="flex justify-between items-center mb-6">
 				<h1 className="text-lg md:text-2xl font-bold">Category Settings</h1>
 				<Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -191,8 +209,7 @@ export default function Settings() {
 	);
 }
 
-function CategoryCard({ category, deleteCategory }) {
-
+function CategoryCard({ category, deleteCategory }: CategoryCardProps) {
 	return (
 		<div className="cursor-default rounded-lg border border-gray-300 p-3 shadow-sm bg-white">
 			<div className="flex justify-between items-center gap-3">

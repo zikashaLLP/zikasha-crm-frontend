@@ -27,12 +27,39 @@ const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+// TypeScript types
+type LoginFormData = z.infer<typeof loginSchema>;
+
+interface LoginResponse {
+  token: string;
+  user: {
+    id: string;
+    email: string;
+    name?: string;
+    role?: string;
+    [key: string]: any;
+  };
+}
+
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
+interface AuthContextType {
+  setUser: (user: LoginResponse['user']) => void;
+  setToken: (token: string) => void;
+}
+
 export default function Login() {
-  const { setUser, setToken } = useContext(AuthContext);
+  const { setUser, setToken } = useContext(AuthContext) as AuthContextType;
   const navigate = useNavigate();
 
   // Create the form with zodResolver
-  const form = useForm({
+  const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -41,9 +68,9 @@ export default function Login() {
   });
 
   // Submit handler
-  async function onSubmit(values) {
+  async function onSubmit(values: LoginFormData): Promise<void> {
     try {
-      const response = await api.post("/auth/login", values);
+      const response = await api.post<LoginResponse>("/auth/login", values);
       const { token, user } = response.data;
       setToken(token);
       setUser(user);
@@ -52,7 +79,8 @@ export default function Login() {
         navigate("/dashboard");
       }, 1000);
     } catch (err) {
-      toast.error(err.response?.data?.message || "Login failed");
+      const error = err as ApiError;
+      toast.error(error.response?.data?.message || "Login failed");
     }
   }
 
@@ -90,7 +118,12 @@ export default function Login() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="flex justify-between">Password <Link to="/register" className="text-sm font-normal text-primary hover:underline">Lost your password?</Link></FormLabel>
+                    <FormLabel className="flex justify-between">
+                      Password 
+                      <Link to="/register" className="text-sm font-normal text-primary hover:underline">
+                        Lost your password?
+                      </Link>
+                    </FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="Enter your password" {...field} />
                     </FormControl>
@@ -98,8 +131,6 @@ export default function Login() {
                   </FormItem>
                 )}
               />
-
-            
 
               <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
                 {form.formState.isSubmitting ? "Logging in..." : "Login"}
@@ -116,8 +147,12 @@ export default function Login() {
                 © 2025 Zikasha consultancy LLP. All rights reserved.
               </p>
               <p className="text-xs mt-2">
-                <Link className="text-primary hover:underline mr-3" to="/terms-of-service">Terms of Service</Link>
-                <Link className="text-primary hover:underline" to="/privacy-policy">Privacy Policy</Link>
+                <Link className="text-primary hover:underline mr-3" to="/terms-of-service">
+                  Terms of Service
+                </Link>
+                <Link className="text-primary hover:underline" to="/privacy-policy">
+                  Privacy Policy
+                </Link>
               </p>
             </form>
           </Form>

@@ -1,8 +1,22 @@
 import React, { createContext, useState, useEffect } from 'react';
 
-export const AuthContext = createContext();
+interface AuthContextType {
+  user: any;
+  setUser: React.Dispatch<React.SetStateAction<any>>;
+  token: string | null;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  logout: () => void;
+}
 
-export function AuthProvider({ children }) {
+export const AuthContext = createContext<AuthContextType>({
+  user: null,
+  setUser: () => {},
+  token: null,
+  setToken: () => {},
+  logout: () => {},
+});
+
+export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;

@@ -16,13 +16,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import api from "@/api/axios";
 
 type Customer = {
-  id: string;
+  id: number;
   name: string;
   email?: string;
   phone?: string;
@@ -34,11 +33,11 @@ type AddCustomerModalProps = {
   onCreated: (customer: Customer) => void;
 };
 
-// Email and phone optional now
+// Improved schema for optional email and phone
 const customerSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email").optional().or(z.literal("")),
-  phone: z.string().optional().or(z.literal("")),
+  email: z.string().email("Invalid email").optional().or(z.literal("").transform(() => undefined)),
+  phone: z.string().optional().or(z.literal("").transform(() => undefined)),
 });
 
 type CustomerFormValues = z.infer<typeof customerSchema>;
@@ -59,12 +58,13 @@ export default function AddCustomerModal({
 
   const onSubmit = async (data: CustomerFormValues) => {
     try {
-      // Clean empty strings to undefined before sending
+      // The schema transformation handles empty strings, but we can be explicit
       const payload = {
-        ...data,
+        name: data.name,
         email: data.email || undefined,
         phone: data.phone || undefined,
       };
+      
       const res = await api.post<Customer>("/customers", payload);
 
       toast.success("Customer created");
@@ -72,6 +72,7 @@ export default function AddCustomerModal({
       onOpenChange(false);
       form.reset();
     } catch (error) {
+      console.error("Failed to create customer:", error);
       toast.error("Failed to create customer");
     }
   };
@@ -128,7 +129,7 @@ export default function AddCustomerModal({
             />
 
             <div className="flex justify-end">
-              <Button type="submit">Add</Button>
+              <Button type="submit">Add Customer</Button>
             </div>
           </form>
         </Form>

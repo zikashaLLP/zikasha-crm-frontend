@@ -1,12 +1,20 @@
-export const getDateRange = (type) => {
+export type DateRangeType = 'today' | 'tomorrow' | 'this-week' | 'next-week';
+
+export interface DateRange {
+  name: string;
+  followup_date_start: string;
+  followup_date_end: string;
+}
+
+export const getDateRange = (type: DateRangeType): DateRange => {
   const today = new Date();
-  const startOfToday = new Date(today.setHours(0, 0, 0, 0));
-  const endOfToday = new Date(today.setHours(23, 59, 59, 999));
+  const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
+  const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999);
   const tomorrow = new Date(startOfToday);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
   // Helper function to format date as yyyy-mm-dd
-  const formatDate = (date) => {
+  const formatDate = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
@@ -48,4 +56,4 @@ export const getDateRange = (type) => {
       };
     }
   }
-}
+};

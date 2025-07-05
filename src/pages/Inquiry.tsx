@@ -40,6 +40,7 @@ import { toast } from "sonner";
 import api from "@/api/axios";
 import { useNavigate } from "react-router-dom";
 
+// Zod schema
 const inquirySchema = z.object({
 	customer_id: z.number().min(1, "Customer is required"),
 	category_id: z.number().min(1, "Category is required"),
@@ -47,26 +48,47 @@ const inquirySchema = z.object({
 	followup_date: z.string().min(1, "Follow-up date is required"),
 });
 
+// TypeScript types
 type InquiryFormValues = z.infer<typeof inquirySchema>;
 
-type Customer = {
-	id: string;
+interface Customer {
+	id: number;
 	name: string;
 	email?: string;
 	phone?: string;
-};
+	createdAt?: string;
+	updatedAt?: string;
+	agency_id?: number;
+}
 
-type Category = {
-	id: string;
+interface Category {
+	id: number;
 	name: string;
-};
+	slug: string;
+}
+
+interface ApiResponse<T> {
+	data: T;
+	message?: string;
+	success?: boolean;
+}
+
+interface ApiError {
+	response?: {
+		data?: {
+			message?: string;
+		};
+	};
+	message?: string;
+}
 
 export default function Inquiry() {
+	// Fix the default values type issue
 	const form = useForm<InquiryFormValues>({
 		resolver: zodResolver(inquirySchema),
 		defaultValues: {
-			customer_id: "",
-			category_id: "",
+			customer_id: 0, // Initialize with 0 instead of empty string
+			category_id: 0, // Initialize with 0 instead of empty string
 			location: "",
 			followup_date: "",
 		},
@@ -74,31 +96,33 @@ export default function Inquiry() {
 
 	const [customers, setCustomers] = useState<Customer[]>([]);
 	const [categories, setCategories] = useState<Category[]>([]);
-	const [openCustomerModal, setOpenCustomerModal] = useState(false);
+	const [openCustomerModal, setOpenCustomerModal] = useState<boolean>(false);
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		async function fetchData() {
+		async function fetchData(): Promise<void> {
 			try {
 				const [customersRes, categoriesRes] = await Promise.all([
-					api.get<Customer[]>("/customers"),
-					api.get<Category[]>("/categories"),
+					api.get<ApiResponse<Customer[]>>("/customers"),
+					api.get<ApiResponse<Category[]>>("/categories"),
 				]);
-				setCustomers(customersRes.data);
-				setCategories(categoriesRes.data);
+				setCustomers(customersRes.data.data || customersRes.data);
+				setCategories(categoriesRes.data.data || categoriesRes.data);
 			} catch (error) {
+				const apiError = error as ApiError;
+				console.error("Error fetching data:", apiError);
 				toast.error("Failed to load customers or categories");
 			}
 		}
 		fetchData();
 	}, []);
 
-	const onSubmit = async (data: InquiryFormValues) => {
+	const onSubmit = async (data: InquiryFormValues): Promise<void> => {
 		console.log("Submitting inquiry data:", data);
 
 		try {
-			await api.post("/inquiries", data);
+			await api.post<ApiResponse<any>>("/inquiries", data);
 			toast.success("Inquiry created");
 			// Redirect to dashboard
 			setTimeout(() => {
@@ -106,7 +130,31 @@ export default function Inquiry() {
 				navigate("/dashboard");
 			}, 1000);
 		} catch (error) {
-			toast.error("Something went wrong while creating inquiry");
+			const apiError = error as ApiError;
+			console.error("Error creating inquiry:", apiError);
+			toast.error(apiError.response?.data?.message || "Something went wrong while creating inquiry");
+		}
+	};
+
+	const handleCustomerCreated = (newCustomer: Customer): void => {
+		setCustomers((prev) => [...prev, newCustomer]);
+		form.setValue("customer_id", newCustomer.id); // Now properly typed as number
+	};
+
+	const handleSelectChange = (fieldName: keyof InquiryFormValues) => {
+		return (value: string) => {
+			// Convert string to number for customer_id and category_id
+			if (fieldName === 'customer_id' || fieldName === 'category_id') {
+				form.setValue(fieldName, Number(value));
+			} else {
+				form.setValue(fieldName, value as any);
+			}
+		};
+	};
+
+	const handleDateSelect = (date: Date | undefined): void => {
+		if (date) {
+			form.setValue("followup_date", date.toISOString());
 		}
 	};
 
@@ -119,10 +167,8 @@ export default function Inquiry() {
 				</CardHeader>
 
 				<CardContent>
-
 					<Form {...form}>
 						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-
 							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 								<div>
 									<FormItem>
@@ -145,10 +191,8 @@ export default function Inquiry() {
 											<FormItem className="flex-1">
 												<FormLabel>Customer</FormLabel>
 												<Select
-													onValueChange={(value) => {
-														field.onChange(value);
-													}}
-													value={field.value}
+													onValueChange={handleSelectChange('customer_id')}
+													value={String(field.value)}
 													key={`customer-${field.value}`} // Force re-render on value change
 												>
 													<FormControl>
@@ -157,8 +201,8 @@ export default function Inquiry() {
 														</SelectTrigger>
 													</FormControl>
 													<SelectContent>
-														{customers.map((cust) => (
-															<SelectItem key={cust.id} value={cust.id}>
+														{customers.map((cust: Customer) => (
+															<SelectItem key={cust.id} value={String(cust.id)}>
 																{cust.name}
 															</SelectItem>
 														))}
@@ -196,10 +240,8 @@ export default function Inquiry() {
 										<FormItem>
 											<FormLabel>Category</FormLabel>
 											<Select
-												onValueChange={(value) => {
-													field.onChange(value);
-												}}
-												value={field.value}
+												onValueChange={handleSelectChange('category_id')}
+												value={String(field.value)}
 												key={`category-${field.value}`} // Force re-render on value change
 											>
 												<FormControl>
@@ -208,8 +250,8 @@ export default function Inquiry() {
 													</SelectTrigger>
 												</FormControl>
 												<SelectContent>
-													{categories.map((cat) => (
-														<SelectItem key={cat.id} value={cat.id}>
+													{categories.map((cat: Category) => (
+														<SelectItem key={cat.id} value={String(cat.id)}>
 															{cat.name}
 														</SelectItem>
 													))}
@@ -264,7 +306,7 @@ export default function Inquiry() {
 													<Calendar
 														mode="single"
 														selected={field.value ? new Date(field.value) : undefined}
-														onSelect={(date) => field.onChange(date?.toISOString())}
+														onSelect={handleDateSelect}
 													/>
 												</PopoverContent>
 											</Popover>
@@ -274,17 +316,16 @@ export default function Inquiry() {
 								/>
 							</div>
 
-							<Button type="submit">Create Inquiry</Button>
+							<Button type="submit" disabled={form.formState.isSubmitting}>
+								{form.formState.isSubmitting ? "Creating..." : "Create Inquiry"}
+							</Button>
 						</form>
 					</Form>
 
 					<AddCustomerModal
 						open={openCustomerModal}
 						onOpenChange={setOpenCustomerModal}
-						onCreated={(newCustomer: Customer) => {
-							setCustomers((prev) => [...prev, newCustomer]);
-							form.setValue("customer_id", newCustomer.id);
-						}}
+						onCreated={handleCustomerCreated}
 					/>
 				</CardContent>
 			</Card>
