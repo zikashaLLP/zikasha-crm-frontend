@@ -66,7 +66,7 @@ export default function Login() {
               className="max-w-md w-full space-y-6 rounded p-6"
               noValidate
             >
-              <div className="text-2xl font-bold text-primary">Zikasha CRM</div>
+              <div className="text-2xl font-bold text-primary">Zikasha Real Estate CRM</div>
               <h2 className="text-xl font-semibold">Login</h2>
 
               {/* Email field */}
@@ -107,8 +107,8 @@ export default function Login() {
 
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{" "}
-                <Link to="/register" className="text-sm text-primary hover:underline">
-                  Register here
+                <Link target="_blank" to="https://zikasha.com/contact-us/" className="text-sm text-primary hover:underline">
+                  Contact our team
                 </Link>
               </p>
 
