@@ -1,8 +1,9 @@
 {
   "name": "Zikasha CRM",
   "short_name": "Zikasha",
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#ffffff",
   "theme_color": "#1976d2",
   "description": "Zikasha CRM allow you to manage your inquiries with your team and customers.",
@@ -16,6 +17,55 @@
       "src": "icons/1024.png",
       "sizes": "1024x1024",
       "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/login.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "label": "Login Screen"
+    },
+    {
+      "src": "screenshots/dashboard.png",
+      "sizes": "2940x1538",
+      "type": "image/png",
+      "label": "Main Dashboard, Inquiries Management"
+    },
+    {
+      "src": "screenshots/add-inquiry.png",
+      "sizes": "2940x1538",
+      "type": "image/png",
+      "label": "Add new Inquiry for Customer"
+    },
+    {
+      "src": "screenshots/view-add-log.png",
+      "sizes": "2940x1538",
+      "type": "image/png",
+      "label": "View and Add Inquiry Log"
+    },
+    {
+      "src": "screenshots/customer-contacts.png",
+      "sizes": "2940x1538",
+      "type": "image/png",
+      "label": "View Inquiry Details"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Inquiries",
+      "short_name": "View Inquiries",
+      "url": "/dashboard"
+    },
+    {
+      "name": "Add Inquiry",
+      "short_name": "Add Inquiry",
+      "url": "/dashboard/inquiries/new"
+    },
+    {
+      "name": "Manage Categories",
+      "short_name": "Manage Categories",
+      "url": "/dashboard/settings"
     }
   ]
 }

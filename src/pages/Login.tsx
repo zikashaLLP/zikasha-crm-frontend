@@ -21,6 +21,8 @@ import { AuthContext } from "@/contexts/AuthContext";
 
 import { toast } from "sonner";
 
+import ZikashaCRMLogo from "../assets/zikasha-crm-logo.svg";
+
 // Zod schema
 const loginSchema = z.object({
   email: z.string().min(1, "Email is required").email("Invalid email address"),
@@ -94,7 +96,7 @@ export default function Login() {
               className="max-w-md w-full space-y-6 rounded p-6"
               noValidate
             >
-              <div className="text-2xl font-bold text-primary">Zikasha Real Estate CRM</div>
+              <div className="text-2xl font-bold text-muted-foreground"><img className="h-[36px]" src={ ZikashaCRMLogo } alt="Zikasha" /> Real Estate CRM</div>
               <h2 className="text-xl font-semibold">Login</h2>
 
               {/* Email field */}
