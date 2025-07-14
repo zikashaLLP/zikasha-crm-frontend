@@ -352,12 +352,30 @@ export default function Dashboard() {
                         <div className="text-sm">
                           {formatDate(inquiry.createdAt)}
                         </div>
-                        {inquiry.location && (
-                          <div className="text-sm flex items-center gap-1">
-                            <MapPinIcon className="w-4 h-4" />
-                            {inquiry.location}
-                          </div>
-                        )}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon">
+                                <MoreVerticalIcon className="h-5 w-5" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => handleInquiryClick(inquiry)}>
+                                View Logs
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleContactClick(inquiry)}>
+                                View Contact
+                              </DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  setSelectedInquiry(inquiry);
+                                  setShowDeleteDialog(true);
+                                }}
+                                className="text-red-600 hover:text-red-800 focus:bg-red-100 focus:text-red-700"
+                              >
+                                Delete Inquiry
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </div>
                     <div className="p-0">
@@ -368,11 +386,19 @@ export default function Dashboard() {
                             {inquiry.Customer?.name || "N/A"}
                           </span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <CalendarIcon className="w-5 h-5" />
-                          <span>
-                            {inquiry.followup_date ? formatDate(inquiry.followup_date) : "-"}
-                          </span>
+                        <div className="flex gap-5">
+                          <div className="flex items-center gap-2">
+                            <CalendarIcon className="w-5 h-5" />
+                            <span>
+                              {inquiry.followup_date ? formatDate(inquiry.followup_date) : "-"}
+                            </span>
+                          </div>
+                          {inquiry.location && (
+                            <div className="text-sm flex items-center gap-1">
+                              <MapPinIcon className="w-5 h-5" />
+                              {inquiry.location}
+                            </div>
+                          )}
                         </div>
                         {inquiry.latest_log && (
                           <div className="flex items-center gap-2">
