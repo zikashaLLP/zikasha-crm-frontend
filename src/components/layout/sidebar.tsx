@@ -16,6 +16,9 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSidebar } from "@/contexts/sidebar-context";
 
+import ZikashaCRM from "../../assets/zikasha-crm-logo.svg";
+import ZikashaCRMIcon from "../../assets/zikasha-crm-icon.svg";
+
 const navItems = [
 	{
 		title: "Inquiries",
@@ -59,11 +62,10 @@ export default function Sidebar() {
 						key={href}
 						to={href}
 						onClick={() => setOpen(false)} // closes sheet on mobile
-						className={`flex items-center gap-3 rounded-md px-3 py-3 text-sm font-medium transition-colors ${isActive ? "bg-blue-100 text-primary" : "hover:bg-muted"
-							}`}
+						className={`flex items-center rounded-md px-3 py-3 text-sm font-medium transition-colors ${isActive ? "bg-blue-100 text-primary" : "hover:bg-muted"}`}
 					>
 						<Icon className="h-4 w-4" />
-						{!collapsed && <span className="text-primary">{title}</span>}
+						{!collapsed && <span className="text-primary ml-3">{title}</span>}
 					</Link>
 				);
 			})}
@@ -95,7 +97,13 @@ export default function Sidebar() {
 						</SheetTrigger>
 						<SheetContent side="left" className="w-[240px] px-2 py-4">
 							<div>
-								<h2 className="px-3 py-2 text-xl font-medium mb-2">Zikasha</h2>
+								<div className="">
+									<img
+										className="h-[36px] pb-4 pt-2 px-1 box-content"
+										src={ ZikashaCRM } 
+										alt="Zikasha CRM Logo"
+									/>
+								</div>
 								<NavLinks collapsed={false} /> {/* Always show full on mobile */}
 							</div>
 						</SheetContent>
@@ -120,7 +128,23 @@ export default function Sidebar() {
 							</Button>
 						</div>
 
-						<h2 className="px-3 py-2 text-xl font-medium mb-2">{collapsed ? 'Z' : 'Zikasha'}</h2>
+						<div>
+							{
+								collapsed ? (
+									<img
+										className="h-[36px] box-content pb-4 px-2"
+										src={ ZikashaCRMIcon }
+										alt="Zikasha CRM Icon"
+									/>
+								) : (
+									<img
+										className="h-[48px] pb-4"
+										src={ ZikashaCRM }
+										alt="Zikasha CRM Logo"
+									/>
+								)
+							}
+						</div>
 						<NavLinks collapsed={collapsed} />
 					</div>
 				</aside>
