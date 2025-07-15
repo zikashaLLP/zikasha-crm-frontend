@@ -40,7 +40,7 @@ export default function Sidebar() {
 
 	const handleLogout = () => {
 		// Implement your logout logic here
-		localStorage.removeItem("token");
+		localStorage.removeItem("zikasha_crm_token");
 		window.location.href = "/login"; // Redirect to login page
 	};
 
