@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { Bookmark, Clock, FilePlus, List, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -150,18 +151,66 @@ export default function Login() {
               <p className="text-xs text-muted-foreground m-0 mt-4">
                 © 2025 Zikasha consultancy LLP. All rights reserved.
               </p>
-              <p className="text-xs mt-2">
+              {/* <p className="text-xs mt-2">
                 <Link className="text-primary hover:underline mr-3" to="/terms-of-service">
                   Terms of Service
                 </Link>
                 <Link className="text-primary hover:underline" to="/privacy-policy">
                   Privacy Policy
                 </Link>
-              </p>
+              </p> */}
             </form>
           </Form>
         </div>
-        <div className="md:w-1/2 hidden md:block bg-[url('./assets/login-banner.jpg')] bg-cover bg-center"></div>
+
+        {/* Features */}
+        <div className="md:w-1/2 hidden md:block bg-[url('./assets/login-banner.jpg')] bg-cover bg-center">
+            
+            <div className="max-h-screen h-full flex flex-col px-6 items-center justify-center">
+
+              <div className="flex gap-5 bg-white rounded-lg shadow mb-6 max-w-[600px] w-full p-6 ">
+                <div className="">
+                  <FilePlus className="w-8 h-8 text-[#2b7fff] pt-1" />
+                </div>
+                <div className="w-full">
+                  <h1 className="text-lg font-semibold">Manage Customer Inquiries</h1>
+                  <p className="mt-1 text-sm text-muted-foreground">Easily create and manage customer inquiries. Add conversation logs to keep a detailed record of all interactions.</p>
+                </div>
+              </div>
+
+              <div className="flex gap-5 bg-white rounded-lg shadow mb-6 max-w-[600px] w-full p-6 ">
+                <div className="">
+                  <Bookmark className="w-8 h-8 text-[#2b7fff] pt-1" />
+                </div>
+                <div className="w-full">
+                  <h1 className="text-lg font-semibold">Categorize Inquiries</h1>
+                  <p className="mt-1 text-sm text-muted-foreground">Organize inquiries into categories for faster access and more efficient tracking.</p>
+                </div>
+              </div>
+
+              <div className="flex gap-5 bg-white rounded-lg shadow mb-6 max-w-[600px] w-full p-6 ">
+                <div className="">
+                  <List className="w-8 h-8 text-[#2b7fff] pt-1" />
+                </div>
+                <div className="w-full">
+                  <h1 className="text-lg font-semibold">Add Custom Categories</h1>
+                  <p className="mt-1 text-sm text-muted-foreground">Create your own custom categories to organize inquiries in a way that best suits your workflow and preferences.</p>
+                </div>
+              </div>
+
+              
+              {/* <div className="flex gap-5 bg-white rounded-lg shadow mb-6 max-w-[600px] w-full p-6 ">
+                <div className="">
+                  <Clock className="w-8 h-8 text-[#2b7fff] pt-1" />
+                </div>
+                <div className="w-full">
+                  <h1 className="text-lg font-semibold">Receive Timely Reminders</h1>
+                  <p className="mt-1 text-sm text-muted-foreground">Stay on top of your follow-ups with automated reminders that help you engage with customers at the right time.</p>
+                </div>
+              </div> */}
+
+            </div>
+        </div>
       </div>
     </>
   );

@@ -67,14 +67,14 @@ function ViewLog({ inquiryId }: ViewLogProps) {
 							<div></div>
 						)}
 						<div className="text-sm">
-							{new Date(log.createdAt).toLocaleDateString()}
+							{new Date(log.createdAt).toLocaleDateString("en-IN")}
 						</div>
 					</div>
 					<p className="mb-2">{log.content}</p>
 					<p className="text-gray-800 text-sm">
 						<strong className="font-semibold">Follow up Date: </strong>
 						{log.followup_date
-							? new Date(log.followup_date).toLocaleDateString()
+							? new Date(log.followup_date).toLocaleDateString("en-IN")
 							: "Not set"}
 					</p>
 				</div>
