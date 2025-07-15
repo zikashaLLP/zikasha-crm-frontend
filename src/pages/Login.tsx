@@ -33,7 +33,8 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginResponse {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
   user: {
     id: string;
     email: string;
@@ -73,9 +74,10 @@ export default function Login() {
   async function onSubmit(values: LoginFormData): Promise<void> {
     try {
       const response = await api.post<LoginResponse>("/auth/login", values);
-      const { token, user } = response.data;
-      setToken(token);
+      const { accessToken, refreshToken, user } = response.data;
+      setToken(accessToken);
       setUser(user);
+      localStorage.setItem("zikasha_crm_refresh_token", refreshToken);
       toast.success("login successful");
       setTimeout(() => {
         navigate("/dashboard");
@@ -122,9 +124,9 @@ export default function Login() {
                   <FormItem>
                     <FormLabel className="flex justify-between">
                       Password 
-                      <Link to="/register" className="text-sm font-normal text-primary hover:underline">
+                      {/* <Link to="/register" className="text-sm font-normal text-primary hover:underline">
                         Lost your password?
-                      </Link>
+                      </Link> */}
                     </FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="Enter your password" {...field} />
