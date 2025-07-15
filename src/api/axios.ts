@@ -42,7 +42,8 @@ api.interceptors.response.use(
           // Optionally handle refresh failure (e.g., logout user)
           localStorage.removeItem("zikasha_crm_token");
           localStorage.removeItem("zikasha_crm_refresh_token");
-          window.location.href = "/login";
+          localStorage.removeItem("user");
+          window.location.href = "/login"; // Redirect to login page
         }
       }
     }

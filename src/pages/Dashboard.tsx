@@ -166,7 +166,7 @@ export default function Dashboard() {
   };
 
   const formatDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString();
+    return new Date(dateString).toLocaleDateString("en-IN");
   };
 
   const formatDateTime = (dateString: string): string => {

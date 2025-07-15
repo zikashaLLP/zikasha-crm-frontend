@@ -23,50 +23,76 @@
   "screenshots": [
     {
       "src": "screenshots/login.png",
-      "sizes": "1280x800",
+      "sizes": "2940x1538",
       "type": "image/png",
-      "label": "Login Screen"
+      "label": "Login Screen",
+      "form_factor": "wide"
     },
     {
       "src": "screenshots/dashboard.png",
       "sizes": "2940x1538",
       "type": "image/png",
-      "label": "Main Dashboard, Inquiries Management"
+      "label": "Main Dashboard, Inquiries Management",
+      "form_factor": "wide"
     },
     {
       "src": "screenshots/add-inquiry.png",
       "sizes": "2940x1538",
       "type": "image/png",
-      "label": "Add new Inquiry for Customer"
+      "label": "Add new Inquiry for Customer",
+      "form_factor": "wide"
     },
     {
       "src": "screenshots/view-add-log.png",
       "sizes": "2940x1538",
       "type": "image/png",
-      "label": "View and Add Inquiry Log"
+      "label": "View and Add Inquiry Log",
+      "form_factor": "wide"
     },
     {
       "src": "screenshots/customer-contacts.png",
       "sizes": "2940x1538",
       "type": "image/png",
-      "label": "View Inquiry Details"
+      "label": "View Inquiry Details",
+      "form_factor": "wide"
     }
   ],
   "shortcuts": [
     {
       "name": "View Inquiries",
       "short_name": "View Inquiries",
-      "url": "/dashboard"
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "icons/LayoutTextSidebarReverse.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Add Inquiry",
       "short_name": "Add Inquiry",
-      "url": "/dashboard/inquiries/new"
+      "url": "/dashboard/inquiries/new",
+      "icons": [
+        {
+          "src": "icons/PlusSquareFill.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Manage Categories",
       "short_name": "Manage Categories",
-      "url": "/dashboard/settings"
+      "url": "/dashboard/settings",
+      "icons": [
+        {
+          "src": "icons/BookmarksFill.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }
