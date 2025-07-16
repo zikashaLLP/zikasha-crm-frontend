@@ -44,7 +44,7 @@ import { useNavigate } from "react-router-dom";
 const inquirySchema = z.object({
 	customer_id: z.number().min(1, "Customer is required"),
 	category_id: z.number().min(1, "Category is required"),
-	location: z.string().min(1, "Location is required"),
+	location: z.string(),
 	followup_date: z.string().min(1, "Follow-up date is required"),
 });
 
