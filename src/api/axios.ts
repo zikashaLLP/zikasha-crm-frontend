@@ -45,6 +45,11 @@ api.interceptors.response.use(
           localStorage.removeItem("user");
           window.location.href = "/login"; // Redirect to login page
         }
+      } else {
+        localStorage.removeItem("zikasha_crm_token");
+        localStorage.removeItem("zikasha_crm_refresh_token");
+        localStorage.removeItem("user");
+        window.location.href = "/login"; // Redirect to login page
       }
     }
     return Promise.reject(error);
