@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
@@ -70,6 +70,14 @@ export default function Login() {
       password: "",
     },
   });
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const token = localStorage.getItem("zikasha_crm_token");
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   // Submit handler
   async function onSubmit(values: LoginFormData): Promise<void> {
