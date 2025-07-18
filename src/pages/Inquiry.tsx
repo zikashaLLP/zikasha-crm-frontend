@@ -154,7 +154,8 @@ export default function Inquiry() {
 
 	const handleDateSelect = (date: Date | undefined): void => {
 		if (date) {
-			form.setValue("followup_date", date.toISOString());
+			date.setHours(10, 0, 0, 0); // Reset time to 10:00 AM
+			form.setValue("followup_date", date.toUTCString()); // Store as UTC string
 		}
 	};
 

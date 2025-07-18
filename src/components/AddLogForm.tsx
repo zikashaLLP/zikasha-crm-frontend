@@ -68,12 +68,10 @@ function AddLogForm({
 		},
 	});
 
-	// Helper function to format date in local timezone
-	const formatDateForStorage = (date: Date): string => {
-		const year = date.getFullYear();
-		const month = String(date.getMonth() + 1).padStart(2, '0');
-		const day = String(date.getDate()).padStart(2, '0');
-		return `${year}-${month}-${day}`;
+	const handleDateSelect = (date: Date | undefined): void => {
+		if (date) {
+			form.setValue("followup_date", date.toDateString());
+		}
 	};
 
 	const onSubmit = async (data: InquiryLogFormValues) => {
@@ -87,22 +85,21 @@ function AddLogForm({
 
 		const hint = `Status changed from <b>${oldCategory.name}</b> to <b>${newCategory.name}</b>`;
 
-		console.log("Form Data:", data);
 		
 		// Combine followup_date and followup_time in local timezone
 		let processedData = { ...data };
-		
+	
+		// Add followup_time to followup_date if both are provided and convert to UTC format
 		if (processedData.followup_date && processedData.followup_time) {
-			// Extract the date part from followup_date (YYYY-MM-DD)
-			const datePart = processedData.followup_date.split('T')[0];
-			// Create a local datetime string (without Z to avoid UTC conversion)
-			processedData.followup_date = `${datePart}T${processedData.followup_time}:00.000`;
-		} else if (processedData.followup_date && !processedData.followup_time) {
-			// Keep original followup_date if no followup_time provided
-			// Or set default time if needed
-			const datePart = processedData.followup_date.split('T')[0];
-			processedData.followup_date = `${datePart}T10:00:00.000`;
+			const newDate = new Date(processedData.followup_date);
+			const [hours, minutes] = processedData.followup_time.split(":").map(Number);
+			newDate.setHours(hours, minutes, 0, 0);
+			// Convert to UTC string
+			processedData.followup_date = newDate.toUTCString();
+		} else {
+			processedData.followup_date = new Date(processedData.followup_date).toUTCString(); // Default to current date if not set
 		}
+
 
 		try {
 			await api.post("/logs", { hint, ...processedData });
@@ -184,13 +181,7 @@ function AddLogForm({
 										<Calendar
 											mode="single"
 											selected={field.value ? new Date(field.value) : undefined}
-											onSelect={(date: Date | undefined) => {
-												if (date) {
-													// Store date in YYYY-MM-DD format to avoid timezone issues
-													const formattedDate = formatDateForStorage(date);
-													field.onChange(formattedDate);
-												}
-											}}
+											onSelect={handleDateSelect}
 										/>
 									</PopoverContent>
 								</Popover>
