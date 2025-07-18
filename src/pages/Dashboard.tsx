@@ -120,12 +120,10 @@ export default function Dashboard() {
       selectedCategoryId &&
       ['today', 'tomorrow', 'this-week', 'next-week'].includes(selectedCategoryId as string)
     ) {
-      const { followup_date_start, followup_date_end } = getDateRange(selectedCategoryId as DateRangeType);
-
-      if (followup_date_start === followup_date_end) {
-        url = `/inquiries?followup_date=${followup_date_start}`;
-      } else if (followup_date_start && followup_date_end) {
-        url = `/inquiries?followup_date_start=${followup_date_start}&followup_date_end=${followup_date_end}`;
+      let { followup_date_start, followup_date_end } = getDateRange(selectedCategoryId as DateRangeType);
+      
+      if (followup_date_start && followup_date_end) {
+        url = `/inquiries?followup_date_start=${followup_date_start.toUTCString() }&followup_date_end=${followup_date_end.toUTCString()}`;
       }
     }
 
@@ -306,8 +304,8 @@ export default function Dashboard() {
                           )}
                         </td>
                         <td className="px-4 py-2">{inquiry.location || "-"}</td>
-                        <td className="px-4 py-2">
-                          {inquiry.followup_date ? formatDate(inquiry.followup_date) : "-"}
+                        <td className="px-4 py-2 font-semibold text-xs text-muted-foreground">
+                          {inquiry.followup_date ? formatDateTime(inquiry.followup_date) : "-"}
                         </td>
                         <td className="px-4 py-2">
                           <DropdownMenu>
@@ -390,16 +388,17 @@ export default function Dashboard() {
                           <div className="flex items-center gap-2">
                             <CalendarIcon className="w-5 h-5" />
                             <span>
-                              {inquiry.followup_date ? formatDate(inquiry.followup_date) : "-"}
+                              {inquiry.followup_date ? formatDateTime(inquiry.followup_date) : "-"}
                             </span>
                           </div>
-                          {inquiry.location && (
-                            <div className="text-sm flex items-center gap-1">
-                              <MapPinIcon className="w-5 h-5" />
-                              {inquiry.location}
-                            </div>
-                          )}
                         </div>
+
+                        {inquiry.location && (
+                          <div className="text-sm flex items-center gap-1">
+                            <MapPinIcon className="w-5 h-5" />
+                            {inquiry.location}
+                          </div>
+                        )}
                         {inquiry.latest_log && (
                           <div className="flex items-center gap-2">
                             <NotebookIcon className="w-5 h-5" />
@@ -491,7 +490,7 @@ export default function Dashboard() {
           </DialogHeader>
 
           {selectedInquiry && (
-            <div className="p-4 border rounded-md space-y-4">
+            <div className="md:p-4 md:border rounded-md space-y-4">
               <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
                 {selectedInquiry.Customer?.name && (
                   <div className="flex items-center gap-2">
@@ -518,7 +517,7 @@ export default function Dashboard() {
                   </div>
                 )}
               </div>
-              <hr />
+              <hr className="hidden md:block" />
               <div className="flex gap-4 items-center">
                 {selectedInquiry.Customer?.email && selectedInquiry.Customer.email !== "" && (
                   <Button
