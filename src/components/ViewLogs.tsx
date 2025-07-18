@@ -22,6 +22,21 @@ function ViewLog({ inquiryId }: ViewLogProps) {
 	const [logs, setLogs] = useState<Log[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 
+	const formatDateTime = (dateString: string): string => {
+		const date = new Date(dateString);
+		const dateStr = date.toLocaleDateString("en-IN", {
+		day: "2-digit",
+		month: "2-digit",
+		year: "numeric",
+		});
+		const timeStr = date.toLocaleTimeString("en-IN", {
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: true,
+		})?.toUpperCase();
+		return `${dateStr}  ${timeStr}`;
+	};
+
 	useEffect(() => {
 		const fetchLogs = async (): Promise<void> => {
 			setLoading(true);
@@ -74,7 +89,7 @@ function ViewLog({ inquiryId }: ViewLogProps) {
 					<p className="text-gray-800 text-sm">
 						<strong className="font-semibold">Follow up Date: </strong>
 						{log.followup_date
-							? new Date(log.followup_date).toLocaleDateString("en-IN")
+							? formatDateTime(log.followup_date)
 							: "Not set"}
 					</p>
 				</div>
