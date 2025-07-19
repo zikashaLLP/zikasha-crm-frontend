@@ -10,6 +10,8 @@ export interface Category {
   id: number | string;
   name: string;
   slug?: string;
+  color?: string;
+  exclude_from_search?: boolean;
   createdAt?: string;
   updatedAt?: string;
   agency_id?: number;
@@ -82,7 +84,8 @@ interface CategoryCardProps {
 
 export default function Dashboard() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | string | null>(null);
+  const [ categoriesLoaded, setCategoriesLoaded ] = useState<boolean>(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | string | null>('all');
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [loadingInquiries, setLoadingInquiries] = useState<boolean>(false);
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
@@ -99,12 +102,16 @@ export default function Dashboard() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  
 
   // Load categories once.
   useEffect(() => {
     api
       .get<Category[]>("/categories")
-      .then((res) => setCategories(res.data))
+      .then((res) => {
+        setCategories(res.data)
+        setCategoriesLoaded(true);
+      })
       .catch(() => toast.error("Failed to load categories"));
   }, []);
 
@@ -116,6 +123,22 @@ export default function Dashboard() {
       ? `/inquiries?category_id=${selectedCategoryId}`
       : "/inquiries";
 
+    console.log("selectedCategoryId", selectedCategoryId, categoriesLoaded);
+    
+
+    if (selectedCategoryId === 'all' && ! categoriesLoaded) {
+      return; // Don't fetch inquiries if categories are not loaded yet
+    }
+
+    if (selectedCategoryId === 'all') {
+      const cats = categories.filter(cat => cat.exclude_from_search);
+      if (cats.length > 0) {
+        url = `/inquiries?exclude_categories=${cats.map(cat => cat.id).join(',')}`;
+      } else {
+        url = '/inquiries';
+      }
+    }
+    
     if (
       selectedCategoryId &&
       ['today', 'tomorrow', 'this-week', 'next-week'].includes(selectedCategoryId as string)
@@ -141,7 +164,7 @@ export default function Dashboard() {
       .then((res) => setInquiries(res.data))
       .catch(() => toast.error("Failed to load inquiries"))
       .finally(() => setLoadingInquiries(false));
-  }, [selectedCategoryId]);
+  }, [selectedCategoryId, categoriesLoaded]);
 
   const handleInquiryClick = (inquiry: Inquiry): void => {
     setSelectedInquiry(inquiry);
@@ -215,7 +238,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-6">
         {/* Add an "All" card */}
         <CategoryCard
-          category={{ id: '', name: "All" }}
+          category={{ id: 'all', name: "All" }}
           selected={selectedCategoryId === null}
           onClick={() => handleCategoryClick(null)}
         />
