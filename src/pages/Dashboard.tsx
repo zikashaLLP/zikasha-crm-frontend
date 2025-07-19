@@ -127,6 +127,15 @@ export default function Dashboard() {
       }
     }
 
+    if (
+      selectedCategoryId &&
+      selectedCategoryId === 'backlog'
+    ) {
+      const today = new Date();
+      const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0);
+      url = `/inquiries?followup_date_start=1970-01-01T00:00:00.000Z&followup_date_end=${startOfToday.toUTCString()}`;
+    }
+
     api
       .get<Inquiry[]>(url)
       .then((res) => setInquiries(res.data))
@@ -233,6 +242,12 @@ export default function Dashboard() {
           category={{ id: 'next-week', name: "Next Week" }}
           selected={selectedCategoryId === 'next-week'}
           onClick={() => handleCategoryClick('next-week')}
+        />
+
+        <CategoryCard
+          category={{ id: 'backlog', name: "Backlog" }}
+          selected={selectedCategoryId === 'backlog'}
+          onClick={() => handleCategoryClick('backlog')}
         />
 
         {categories.map((category) => (
