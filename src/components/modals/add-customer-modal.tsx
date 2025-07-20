@@ -33,7 +33,7 @@ type AddCustomerModalProps = {
   onCreated: (customer: Customer) => void;
 };
 
-// Improved schema for optional email and phone
+// Improved schema for optional email and phone.
 const customerSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email").optional().or(z.literal("").transform(() => undefined)),
