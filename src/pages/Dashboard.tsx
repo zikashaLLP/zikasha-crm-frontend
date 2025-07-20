@@ -240,7 +240,7 @@ export default function Dashboard() {
         <CategoryCard
           category={{ id: 'all', name: "All" }}
           selected={selectedCategoryId === null}
-          onClick={() => handleCategoryClick(null)}
+          onClick={() => handleCategoryClick('all')}
         />
 
         <CategoryCard
