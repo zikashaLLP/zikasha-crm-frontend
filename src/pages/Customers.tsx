@@ -179,8 +179,8 @@ export default function CustomersPage() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold">Customers</h1>
-          <p className="text-gray-600 mt-1">Manage your customer database</p>
+          <h1 className="text-xl font-bold">Customers</h1>
+          <p className="text-gray-600 mt-1">Manage your customers</p>
         </div>
         <Button onClick={() => setShowAddModal(true)}>
           <Plus className="w-4 h-4 mr-2" />
@@ -320,7 +320,7 @@ export default function CustomersPage() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-6">
+        <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-3">
           <div className="text-sm text-gray-600">
             Showing {((currentPage - 1) * limit) + 1} to {Math.min(currentPage * limit, total)} of {total} customers
           </div>
@@ -332,7 +332,7 @@ export default function CustomersPage() {
               disabled={currentPage <= 1}
             >
               <ChevronLeft className="h-4 w-4 mr-1" />
-              Previous
+              <span className="hidden md:inline-block">Previous</span>
             </Button>
             
             <div className="flex items-center gap-1">
@@ -371,7 +371,7 @@ export default function CustomersPage() {
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
               disabled={currentPage >= totalPages}
             >
-              Next
+              <span className="hidden md:inline-block">Next</span>
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
           </div>
