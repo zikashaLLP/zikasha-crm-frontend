@@ -305,12 +305,12 @@ export default function Dashboard() {
                 <table className="w-full table-auto border-collapse bg-white">
                   <thead className="bg-gray-100 border-b">
                     <tr>
-                      <th className="px-4 py-2 text-left font-semibold">Date</th>
                       <th className="px-4 py-2 text-left font-semibold">Client</th>
                       <th className="px-4 py-2 text-left font-semibold">Contact No.</th>
                       <th className="px-4 py-2 text-left font-semibold">Status</th>
                       <th className="px-4 py-2 text-left font-semibold">Location</th>
                       <th className="px-4 py-2 text-left font-semibold">Follow-up Date</th>
+                      <th className="px-4 py-2 text-left font-semibold">Created At</th>
                       <th className="px-4 py-2 text-left font-semibold">&nbsp;</th>
                     </tr>
                   </thead>
@@ -322,9 +322,6 @@ export default function Dashboard() {
                           selectedInquiry?.id === inquiry.id ? 'bg-gray-50' : ''
                         }`}
                       >
-                        <td className="px-4 py-2">
-                          {formatDate(inquiry.createdAt)}
-                        </td>
                         <td
                           className="px-4 py-2 cursor-pointer"
                           onClick={() => handleContactClick(inquiry)}
@@ -349,6 +346,9 @@ export default function Dashboard() {
                         <td className="px-4 py-2">{inquiry.location || "-"}</td>
                         <td className="px-4 py-2 font-semibold text-xs text-muted-foreground">
                           {inquiry.followup_date ? formatDateTime(inquiry.followup_date) : "-"}
+                        </td>
+                        <td className="px-4 py-2">
+                          {formatDate(inquiry.createdAt)}
                         </td>
                         <td className="px-4 py-2">
                           <DropdownMenu>
@@ -387,15 +387,12 @@ export default function Dashboard() {
             {!isDesktop && inquiries?.length > 0 && (
               <div>
                 {inquiries.map((inquiry) => (
-                  <div key={inquiry.id} className="p-3 mb-10 relative border rounded-lg">
+                  <div key={inquiry.id} className="p-4 mb-10 relative border rounded-lg">
                     <div className="p-0">
                       <div className="flex justify-between items-center">
-                        <div className="text-sm">
-                          {formatDate(inquiry.createdAt)}
-                        </div>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
+                              <Button className="absolute top-2 right-2" variant="ghost" size="icon">
                                 <MoreVerticalIcon className="h-5 w-5" />
                               </Button>
                             </DropdownMenuTrigger>
@@ -444,7 +441,7 @@ export default function Dashboard() {
                         )}
                         {inquiry.latest_log && (
                           <div className="flex items-center gap-2">
-                            <NotebookIcon className="w-5 h-5" />
+                            <NotebookIcon className="min-w-5 min-h-5" />
                             <span>{inquiry.latest_log}</span>
                           </div>
                         )}
