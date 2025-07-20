@@ -160,8 +160,8 @@ export default function Dashboard() {
     }
 
     api
-      .get<Inquiry[]>(url)
-      .then((res) => setInquiries(res.data))
+      .get(url)
+      .then((res) => setInquiries(res.data.inquiries))
       .catch(() => toast.error("Failed to load inquiries"))
       .finally(() => setLoadingInquiries(false));
   }, [selectedCategoryId, categoriesLoaded]);
@@ -291,7 +291,7 @@ export default function Dashboard() {
 
         {loadingInquiries ? (
           <Loading />
-        ) : inquiries.length === 0 ? (
+        ) : inquiries?.length === 0 ? (
           <p className="text-gray-500 text-center py-4">No inquiry found!</p>
         ) : (
           <>
@@ -379,7 +379,7 @@ export default function Dashboard() {
             )}
 
             {/* Mobile view */}
-            {!isDesktop && inquiries.length > 0 && (
+            {!isDesktop && inquiries?.length > 0 && (
               <div>
                 {inquiries.map((inquiry) => (
                   <div key={inquiry.id} className="p-3 mb-10 relative border rounded-lg">

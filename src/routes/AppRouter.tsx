@@ -4,6 +4,7 @@ import Login from "@/pages/Login";
 import Dashboard from "@/pages/Dashboard";
 import Settings from "@/pages/Settings";
 import Inquiry from "@/pages/Inquiry";
+import Customers from "@/pages/Customers";
 import NotFound from "@/pages/NotFound";
 
 import PrivateRoute from "./PrivateRoute";
@@ -21,6 +22,7 @@ export default function App() {
           }>
             <Route index element={<Dashboard />} />
             <Route path="inquiries/new" element={<Inquiry />} />
+            <Route path="customers" element={<Customers />} />
             <Route path="settings" element={<Settings />} />
           </Route>
           <Route path="*" element={<NotFound />} />

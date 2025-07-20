@@ -5,6 +5,7 @@ import {
 	Menu,
 	ChevronLeft,
 	ChevronRight,
+	Users,
 } from "lucide-react";
 import {
 	Sheet,
@@ -24,6 +25,11 @@ const navItems = [
 		title: "Inquiries",
 		href: "/dashboard",
 		icon: LayoutDashboard,
+	},
+	{
+		title: "Customers",
+		href: "/dashboard/customers",
+		icon: Users,
 	},
 	{
 		title: "Settings",
