@@ -104,10 +104,10 @@ export default function Inquiry() {
 		async function fetchData(): Promise<void> {
 			try {
 				const [customersRes, categoriesRes] = await Promise.all([
-					api.get<ApiResponse<Customer[]>>("/customers"),
+					api.get("/customers"),
 					api.get<ApiResponse<Category[]>>("/categories"),
 				]);
-				setCustomers(customersRes.data.data || customersRes.data);
+				setCustomers(customersRes.data.customers);
 				setCategories(categoriesRes.data.data || categoriesRes.data);
 			} catch (error) {
 				const apiError = error as ApiError;

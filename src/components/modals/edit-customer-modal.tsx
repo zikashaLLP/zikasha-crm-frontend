@@ -1,3 +1,5 @@
+// edit-customer-modal.tsx
+import { useEffect } from "react";
 import * as z from "zod";
 import {
   Dialog,
@@ -29,13 +31,14 @@ type Customer = {
   updatedAt: string;
 };
 
-type AddCustomerModalProps = {
+type EditCustomerModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCreated: (customer: Customer) => void;
+  customer: Customer | null;
+  onUpdated: (customer: Customer) => void;
 };
 
-// Improved schema for optional email and phone.
+// Same schema as add customer modal
 const customerSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email").optional().or(z.literal("").transform(() => undefined)),
@@ -44,11 +47,12 @@ const customerSchema = z.object({
 
 type CustomerFormValues = z.infer<typeof customerSchema>;
 
-export default function AddCustomerModal({
+export default function EditCustomerModal({
   open,
   onOpenChange,
-  onCreated,
-}: AddCustomerModalProps) {
+  customer,
+  onUpdated,
+}: EditCustomerModalProps) {
   const form = useForm<CustomerFormValues>({
     resolver: zodResolver(customerSchema),
     defaultValues: {
@@ -58,7 +62,20 @@ export default function AddCustomerModal({
     },
   });
 
+  // Reset form when customer changes
+  useEffect(() => {
+    if (customer) {
+      form.reset({
+        name: customer.name,
+        email: customer.email || "",
+        phone: customer.phone || "",
+      });
+    }
+  }, [customer, form]);
+
   const onSubmit = async (data: CustomerFormValues) => {
+    if (!customer) return;
+
     try {
       // The schema transformation handles empty strings, but we can be explicit
       const payload = {
@@ -66,24 +83,25 @@ export default function AddCustomerModal({
         email: data.email || undefined,
         phone: data.phone || undefined,
       };
-      
-      const res = await api.post<Customer>("/customers", payload);
 
-      toast.success("Customer created");
-      onCreated(res.data);
+      const res = await api.put<Customer>(`/customers/${customer.id}`, payload);
+
+      toast.success("Customer updated");
+      onUpdated(res.data);
       onOpenChange(false);
-      form.reset();
     } catch (error) {
-      console.error("Failed to create customer:", error);
-      toast.error("Failed to create customer");
+      console.error("Failed to update customer:", error);
+      toast.error("Failed to update customer");
     }
   };
+
+  if (!customer) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Customer</DialogTitle>
+          <DialogTitle>Edit Customer</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -130,8 +148,15 @@ export default function AddCustomerModal({
               )}
             />
 
-            <div className="flex justify-end">
-              <Button type="submit">Add Customer</Button>
+            <div className="flex justify-end gap-2">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => onOpenChange(false)}
+              >
+                Cancel
+              </Button>
+              <Button type="submit">Update Customer</Button>
             </div>
           </form>
         </Form>
