@@ -74,6 +74,7 @@ import { getDateRange } from "@/utils/dates"
 
 import AddLogForm from "@/components/AddLogForm";
 import ViewLogs from "@/components/ViewLogs";
+import { Badge } from "@/components/ui/badge";
 
 // Props interface for CategoryCard component
 interface CategoryCardProps {
@@ -87,6 +88,7 @@ export default function Dashboard() {
   const [ categoriesLoaded, setCategoriesLoaded ] = useState<boolean>(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | string | null>('all');
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
+  const [inquiriesCount, setinquiriesCount] = useState<number>(0);
   const [loadingInquiries, setLoadingInquiries] = useState<boolean>(false);
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
   const [showInquiryModal, setShowInquiryModal] = useState<boolean>(false);
@@ -161,7 +163,10 @@ export default function Dashboard() {
 
     api
       .get(url)
-      .then((res) => setInquiries(res.data.inquiries))
+      .then((res) => {
+        setInquiries(res.data.inquiries)
+        setinquiriesCount(res.data.total);
+      })
       .catch(() => toast.error("Failed to load inquiries"))
       .finally(() => setLoadingInquiries(false));
   }, [selectedCategoryId, categoriesLoaded]);
@@ -286,7 +291,7 @@ export default function Dashboard() {
       {/* Inquiries list */}
       <section>
         <h2 className="mb-4 text-base font-semibold">
-          {getSectionTitle()}
+          {getSectionTitle()} <Badge className="ml-2">{inquiriesCount}</Badge>
         </h2>
 
         {loadingInquiries ? (
