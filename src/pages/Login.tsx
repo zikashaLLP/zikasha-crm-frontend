@@ -23,6 +23,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 
 import ZikashaCRMLogo from "../assets/zikasha-crm-logo.svg";
+import Features from "@/components/Features";
 
 // Zod schema
 const loginSchema = z.object({
@@ -173,51 +174,7 @@ export default function Login() {
 
         {/* Features */}
         <div className="md:w-1/2 hidden md:block bg-[url('./assets/login-banner.jpg')] bg-cover bg-center">
-            
-            <div className="max-h-screen h-full flex flex-col px-6 items-center justify-center">
-
-              <div className="flex gap-5 bg-white rounded-lg shadow mb-6 max-w-[600px] w-full p-6 ">
-                <div className="">
-                  <FilePlus className="w-8 h-8 text-[#2b7fff] pt-1" />
-                </div>
-                <div className="w-full">
-                  <h1 className="text-lg font-semibold">Manage Customer Inquiries</h1>
-                  <p className="mt-1 text-sm text-muted-foreground">Easily create and manage customer inquiries. Add conversation logs to keep a detailed record of all interactions.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-5 bg-white rounded-lg shadow mb-6 max-w-[600px] w-full p-6 ">
-                <div className="">
-                  <Bookmark className="w-8 h-8 text-[#2b7fff] pt-1" />
-                </div>
-                <div className="w-full">
-                  <h1 className="text-lg font-semibold">Categorize Inquiries</h1>
-                  <p className="mt-1 text-sm text-muted-foreground">Organize inquiries into categories for faster access and more efficient tracking.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-5 bg-white rounded-lg shadow mb-6 max-w-[600px] w-full p-6 ">
-                <div className="">
-                  <List className="w-8 h-8 text-[#2b7fff] pt-1" />
-                </div>
-                <div className="w-full">
-                  <h1 className="text-lg font-semibold">Add Custom Categories</h1>
-                  <p className="mt-1 text-sm text-muted-foreground">Create your own custom categories to organize inquiries in a way that best suits your workflow and preferences.</p>
-                </div>
-              </div>
-
-              
-              <div className="flex gap-5 bg-white rounded-lg shadow mb-6 max-w-[600px] w-full p-6 ">
-                <div className="">
-                  <Clock className="w-8 h-8 text-[#2b7fff] pt-1" />
-                </div>
-                <div className="w-full">
-                  <h1 className="text-lg font-semibold">Receive Timely Reminders</h1>
-                  <p className="mt-1 text-sm text-muted-foreground">Stay on top of your follow-ups with automated reminders that help you engage with customers at the right time.</p>
-                </div>
-              </div>
-
-            </div>
+            <Features />
         </div>
       </div>
     </>
