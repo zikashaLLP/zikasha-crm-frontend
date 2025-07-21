@@ -4,8 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { Bookmark, Clock, FilePlus, List, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
