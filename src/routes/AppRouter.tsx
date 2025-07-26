@@ -10,6 +10,7 @@ import NotFound from "@/pages/NotFound";
 
 import PrivateRoute from "./PrivateRoute";
 import SuperadminDashboard from "@/pages/superadmin/Dashboard";
+import StaffPage from "@/pages/Staff";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           }>
             <Route index element={<Dashboard />} />
             <Route path="inquiries/new" element={<Inquiry />} />
+            <Route path="staff" element={<StaffPage />} />
             <Route path="customers" element={<Customers />} />
             <Route path="settings" element={<Settings />} />
           </Route>
