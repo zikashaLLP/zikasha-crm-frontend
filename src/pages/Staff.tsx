@@ -31,9 +31,7 @@ import { Plus, Search, MoreHorizontal, Edit, Trash2, ChevronLeft, ChevronRight, 
 import { toast } from "sonner";
 import api from "@/api/axios";
 import { AuthContext } from "@/contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-// import AddUserModal from "@/components/modals/add-user-modal";
-// import EditUserModal from "@/components/modals/edit-user-modal";
+import { useNavigate } from "react-router-dom";
 
 type User = {
   id: number;
@@ -67,8 +65,6 @@ export default function UsersPage() {
   const { user } = useContext(AuthContext);
   
   // Modal states
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
@@ -132,22 +128,6 @@ export default function UsersPage() {
       fetchUsers(currentPage);
     }
   }, [searchTerm]);
-
-  const handleUserCreated = (newUser: User) => {
-    // Add to the beginning of the list
-    setUsers(prev => [newUser, ...prev]);
-    setTotal(prev => prev + 1);
-    toast.success("User added successfully");
-  };
-
-  const handleUserUpdated = (updatedUser: User) => {
-    setUsers(prev => 
-      prev.map(user => 
-        user.id === updatedUser.id ? updatedUser : user
-      )
-    );
-    toast.success("User updated successfully");
-  };
 
   const handleDeleteUser = async () => {
     if (!selectedUser) return;
@@ -213,7 +193,7 @@ export default function UsersPage() {
           <h1 className="text-xl font-bold">Users</h1>
           <p className="text-gray-600 mt-1">Manage your users</p>
         </div>
-        <Button onClick={() => setShowAddModal(true)}>
+        <Button>
           <Plus className="w-4 h-4 mr-2" />
           Add User
         </Button>
@@ -338,7 +318,6 @@ export default function UsersPage() {
                           <DropdownMenuItem
                             onClick={() => {
                               setSelectedUser(user);
-                              setShowEditModal(true);
                             }}
                           >
                             <Edit className="h-4 w-4 mr-2" />

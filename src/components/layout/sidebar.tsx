@@ -45,7 +45,7 @@ const navItems = [
 		title: "Settings",
 		href: "/dashboard/settings",
 		icon: Settings,
-		view: ['admin', 'staff']
+		view: ['admin']
 	},
 ];
 

@@ -184,7 +184,7 @@ export default function SuperadminDashboard() {
 			await api.delete(`/agencies/${agency.id}`);
 			toast.success(`Agency ${agency.name} is deleted successfully`)
 			await loadAgencies();
-		} catch (error) {
+		} catch (error: any) {
 			const message = error?.response?.data?.message || '';
 			toast.error(`Failed to delete ${agency.name} agency! ${message}`);
 		}
