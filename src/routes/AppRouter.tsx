@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "@/components/layout/app-layout";
 import Login from "@/pages/Login";
+import AdminLogin from "@/pages/superadmin/AdminLogin";
 import Dashboard from "@/pages/Dashboard";
 import Settings from "@/pages/Settings";
 import Inquiry from "@/pages/Inquiry";
@@ -8,6 +9,7 @@ import Customers from "@/pages/Customers";
 import NotFound from "@/pages/NotFound";
 
 import PrivateRoute from "./PrivateRoute";
+import SuperadminDashboard from "@/pages/superadmin/Dashboard";
 
 export default function App() {
   return (
@@ -15,6 +17,12 @@ export default function App() {
       <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/superadmin/login" element={<AdminLogin />} />
+          <Route path="/superadmin-dashboard" element={
+            <PrivateRoute>
+              <SuperadminDashboard />
+            </PrivateRoute>
+          } />
           <Route path="/dashboard" element={
             <PrivateRoute>
               <AppLayout />
