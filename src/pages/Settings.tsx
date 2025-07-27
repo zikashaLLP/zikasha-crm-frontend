@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,6 +29,8 @@ import Loading from "@/components/Loading";
 import { toast } from "sonner";
 import api from "@/api/axios";
 import { Plus, MoreVerticalIcon, Edit } from "lucide-react";
+import { AuthContext } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 // Type definitions
 interface Category {
@@ -199,6 +201,25 @@ export default function Settings() {
 		} catch (err) {
 			toast.error("Failed to delete category.");
 		}
+	}
+
+	const { user } = useContext(AuthContext);
+	const navigate = useNavigate();
+
+	if(user.role !== 'admin') {
+		return(
+			<div className="container mx-auto py-6 text-center">
+				<h1 className="text-3xl text-red-600">Access denied!</h1>
+				<p className="text-muted-foreground">You do not have permission to access this page</p>
+				<Button 
+					className="mt-4"
+					variant="outline"
+					onClick={ () => navigate('/dashboard') }
+				>
+					Go back to Dashboard
+				</Button>
+			</div>
+		)
 	}
 
 	return (

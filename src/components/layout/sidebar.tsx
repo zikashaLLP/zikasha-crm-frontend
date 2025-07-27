@@ -6,6 +6,7 @@ import {
 	ChevronLeft,
 	ChevronRight,
 	Users,
+	BookUser,
 } from "lucide-react";
 import {
 	Sheet,
@@ -14,27 +15,37 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSidebar } from "@/contexts/sidebar-context";
 
 import ZikashaCRM from "../../assets/zikasha-crm-logo.svg";
 import ZikashaCRMIcon from "../../assets/zikasha-crm-icon.svg";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const navItems = [
 	{
 		title: "Inquiries",
 		href: "/dashboard",
 		icon: LayoutDashboard,
+		view: ['admin', 'staff']
 	},
 	{
 		title: "Customers",
 		href: "/dashboard/customers",
 		icon: Users,
+		view: ['admin', 'staff']
+	},
+	{
+		title: "Staff",
+		href: "/dashboard/staff",
+		icon: BookUser,
+		view: ['admin']
 	},
 	{
 		title: "Settings",
 		href: "/dashboard/settings",
 		icon: Settings,
+		view: ['admin']
 	},
 ];
 
@@ -43,6 +54,8 @@ export default function Sidebar() {
 	const [open, setOpen] = useState(false); // for mobile sidebar sheet
 	const { collapsed, setCollapsed } = useSidebar();
 	const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+
+	const { user } = useContext(AuthContext);
 
 	const handleLogout = () => {
 		// Implement your logout logic here
@@ -63,8 +76,9 @@ export default function Sidebar() {
 
 	const NavLinks = ({ collapsed }: { collapsed: boolean }) => (
 		<nav className="space-y-1">
-			{navItems.map(({ title, href, icon: Icon }) => {
+			{navItems.map(({ title, href, icon: Icon, view }) => {
 				const isActive = location.pathname === href;
+				if ( ! view.includes(user.role) ) return null;
 				return (
 					<Link
 						key={href}
