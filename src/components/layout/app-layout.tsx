@@ -54,10 +54,10 @@ export default function AppLayout() {
 							<Button
 								variant="ghost"
 								size="icon"
-								className="bg-blue-200 hover:bg-blue-300"
-							>KC</Button>
+								className="bg-blue-200 hover:bg-blue-300 rounded-full"
+							>{userShortName(user.name)}</Button>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end" className="w-48">
+						<DropdownMenuContent align="end">
 							<DropdownMenuLabel>
 								<div className="flex gap-2">
 									{
