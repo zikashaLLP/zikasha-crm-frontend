@@ -244,7 +244,7 @@ export default function Dashboard() {
         {/* Add an "All" card */}
         <CategoryCard
           category={{ id: 'all', name: "All" }}
-          selected={selectedCategoryId === null}
+          selected={selectedCategoryId === 'all'}
           onClick={() => handleCategoryClick('all')}
         />
 

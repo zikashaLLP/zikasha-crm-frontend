@@ -17,10 +17,14 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { useSidebar } from "@/contexts/sidebar-context";
-
-import ZikashaCRM from "../../assets/zikasha-crm-logo.svg";
-import ZikashaCRMIcon from "../../assets/zikasha-crm-icon.svg";
 import { AuthContext } from "@/contexts/AuthContext";
+
+import RealEstateCRMLogo from "../../assets/logos/real-estate-zcrm.svg";
+import RealEstateIcon from "../../assets/logos/real-estate-icon.svg";
+import OfficeCRMLogo from "../../assets/logos/office-zcrm.svg";
+import OfficeIcon from "../../assets/logos/office-icon.svg";
+import DoctorCRMLogo from "../../assets/logos/doctor-zcrm.svg";
+import DoctoIcon from "../../assets/logos/doctor-icon.svg";
 
 const navItems = [
 	{
@@ -49,6 +53,24 @@ const navItems = [
 	},
 ];
 
+const logos = [
+	{
+		type: 'real-estate',
+		logo: RealEstateCRMLogo,
+		icon: RealEstateIcon,
+	},
+	{
+		type: 'office',
+		logo: OfficeCRMLogo,
+		icon: OfficeIcon,
+	},
+	{
+		type: 'doctor',
+		logo: DoctorCRMLogo,
+		icon: DoctoIcon,
+	}
+];
+
 export default function Sidebar() {
 	const location = useLocation();
 	const [open, setOpen] = useState(false); // for mobile sidebar sheet
@@ -56,6 +78,8 @@ export default function Sidebar() {
 	const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
 
 	const { user } = useContext(AuthContext);
+
+	const logo = logos.find((logo) => logo.type === user?.agency?.crm_type) || logos[0];
 
 	const handleLogout = () => {
 		// Implement your logout logic here
@@ -91,14 +115,14 @@ export default function Sidebar() {
 					</Link>
 				);
 			})}
-			<Button
+			{/* <Button
 				variant="ghost"
 				className="w-full justify-start p-3 hover:bg-red-50 hover:text-red-500"
 				onClick={handleLogout}
 			>
 				<LogOut className="h-4 w-4 mr-2" />
 				{!collapsed && <span>Logout</span>}
-			</Button>
+			</Button> */}
 		</nav>
 	);
 
@@ -107,25 +131,20 @@ export default function Sidebar() {
 			{/* Mobile Sidebar */}
 			{!isDesktop && (
 				<div className="md:hidden z-50">
+					<img src={ logo.logo } className="fixed top-3 left-4 z-50 h-[40px]" />
 					<Sheet open={open} onOpenChange={setOpen}>
 						<SheetTrigger asChild>
 							<Button
 								variant="outline"
 								size="icon"
-								className="fixed top-4 left-4 z-50"
+								className="fixed top-3 right-15 z-50"
 							>
 								<Menu className="h-5 w-5" />
 							</Button>
 						</SheetTrigger>
-						<SheetContent side="left" className="w-[240px] px-2 py-4">
+						<SheetContent side="right" className="w-[240px] px-2 py-4">
 							<div>
-								<div className="">
-									<img
-										className="h-[36px] pb-4 pt-2 px-1 box-content"
-										src={ ZikashaCRM } 
-										alt="Zikasha CRM Logo"
-									/>
-								</div>
+								<div className="mb-6"></div>
 								<NavLinks collapsed={false} /> {/* Always show full on mobile */}
 							</div>
 						</SheetContent>
@@ -155,13 +174,13 @@ export default function Sidebar() {
 								collapsed ? (
 									<img
 										className="h-[36px] box-content pb-4 px-2"
-										src={ ZikashaCRMIcon }
+										src={ logo.icon }
 										alt="Zikasha CRM Icon"
 									/>
 								) : (
 									<img
-										className="h-[48px] pb-4"
-										src={ ZikashaCRM }
+										className="h-[60px] pb-4"
+										src={ logo.logo }
 										alt="Zikasha CRM Logo"
 									/>
 								)
