@@ -33,11 +33,13 @@ import api from "@/api/axios";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+import AddUserModal from "@/components/modals/add-user-modal";
+import EditUserModal from "@/components/modals/edit-user-modal";
+
 type User = {
   id: number;
   name: string;
   email?: string;
-  phone?: string;
   role?: string;
   createdAt: string;
   updatedAt: string;
@@ -61,12 +63,14 @@ export default function UsersPage() {
   const [total, setTotal] = useState(0);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-
-  const { user } = useContext(AuthContext);
   
   // Modal states
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  const { user } = useContext(AuthContext);
 
   const limit = 20;
 
@@ -93,7 +97,6 @@ export default function UsersPage() {
         filteredUsers = response.data.users.filter(user =>
           user.name.toLowerCase().includes(search.toLowerCase()) ||
           user.email?.toLowerCase().includes(search.toLowerCase()) ||
-          user.phone?.includes(search) ||
           user.role?.toLowerCase().includes(search.toLowerCase())
         );
       }
@@ -128,6 +131,18 @@ export default function UsersPage() {
       fetchUsers(currentPage);
     }
   }, [searchTerm]);
+
+  const handleUserCreated = (newUser: User) => {
+      // Add to the beginning of the list
+      setUsers(prev => [newUser, ...prev]);
+      setTotal(prev => prev + 1);
+      toast.success("Customer added successfully");
+  };
+
+  const handleUserUpdated = (updatedUser: User) => {
+    setUsers(prev => prev.map(user => user.id === updatedUser.id ? updatedUser : user));
+    toast.success("User updated successfully");
+  };
 
   const handleDeleteUser = async () => {
     if (!selectedUser) return;
@@ -193,7 +208,7 @@ export default function UsersPage() {
           <h1 className="text-xl font-bold">Users</h1>
           <p className="text-gray-600 mt-1">Manage your users</p>
         </div>
-        <Button>
+        <Button onClick={() => setShowAddModal(true)}>
           <Plus className="w-4 h-4 mr-2" />
           Add User
         </Button>
@@ -233,7 +248,7 @@ export default function UsersPage() {
             <TableHeader>
               <TableRow>
                 <TableHead 
-                  className="cursor-pointer hover:bg-gray-50"
+                  className="cursor-pointer hover:bg-gray-50 pl-3"
                   onClick={() => handleSort("name")}
                 >
                   Name {getSortIcon("name")}
@@ -244,7 +259,6 @@ export default function UsersPage() {
                 >
                   Email {getSortIcon("email")}
                 </TableHead>
-                <TableHead>Phone</TableHead>
                 <TableHead 
                   className="cursor-pointer hover:bg-gray-50"
                   onClick={() => handleSort("role")}
@@ -282,19 +296,12 @@ export default function UsersPage() {
               ) : (
                 users.map((user) => (
                   <TableRow key={user.id}>
-                    <TableCell className="font-medium">{user.name}</TableCell>
+                    <TableCell className="font-medium pl-3">{user.name}</TableCell>
                     <TableCell>
                       {user.email ? (
                         user.email
                       ) : (
                         <span className="text-gray-400">No email</span>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {user.phone ? (
-                        user.phone
-                      ) : (
-                        <span className="text-gray-400">No phone</span>
                       )}
                     </TableCell>
                     <TableCell>
@@ -318,6 +325,7 @@ export default function UsersPage() {
                           <DropdownMenuItem
                             onClick={() => {
                               setSelectedUser(user);
+                              setShowEditModal(true);
                             }}
                           >
                             <Edit className="h-4 w-4 mr-2" />
@@ -405,7 +413,7 @@ export default function UsersPage() {
       )}
 
       {/* Modals */}
-      {/* <AddUserModal
+      <AddUserModal
         open={showAddModal}
         onOpenChange={setShowAddModal}
         onCreated={handleUserCreated}
@@ -416,7 +424,7 @@ export default function UsersPage() {
         onOpenChange={setShowEditModal}
         user={selectedUser}
         onUpdated={handleUserUpdated}
-      /> */}
+      />
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>

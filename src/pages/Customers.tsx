@@ -222,7 +222,7 @@ export default function CustomersPage() {
             <TableHeader>
               <TableRow>
                 <TableHead 
-                  className="cursor-pointer hover:bg-gray-50"
+                  className="cursor-pointer hover:bg-gray-50 pl-3"
                   onClick={() => handleSort("name")}
                 >
                   Name {getSortIcon("name")}
@@ -264,7 +264,7 @@ export default function CustomersPage() {
               ) : (
                 customers.map((customer) => (
                   <TableRow key={customer.id}>
-                    <TableCell className="font-medium">{customer.name}</TableCell>
+                    <TableCell className="font-medium pl-3">{customer.name}</TableCell>
                     <TableCell>
                       {customer.email ? (
                         customer.email

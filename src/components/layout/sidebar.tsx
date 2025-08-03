@@ -1,7 +1,6 @@
 import {
 	LayoutDashboard,
 	Settings,
-	LogOut,
 	Menu,
 	ChevronLeft,
 	ChevronRight,
@@ -80,14 +79,6 @@ export default function Sidebar() {
 	const { user } = useContext(AuthContext);
 
 	const logo = logos.find((logo) => logo.type === user?.agency?.crm_type) || logos[0];
-
-	const handleLogout = () => {
-		// Implement your logout logic here
-		localStorage.removeItem("zikasha_crm_token");
-		localStorage.removeItem("zikasha_crm_refresh_token");
-		localStorage.removeItem("user");
-		window.location.href = "/login"; // Redirect to login page
-	};
 
 	// Listen for screen resize to update isDesktop
 	useEffect(() => {
