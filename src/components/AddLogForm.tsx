@@ -75,12 +75,19 @@ function AddLogForm({
 	};
 
 	const onSubmit = async (data: InquiryLogFormValues) => {
-		const oldCategory = categories.find(cat => cat.id === category_id);
-		const newCategory = categories.find(cat => cat.id === data.category_id);
+		let oldCategory = categories.find(cat => cat.id === category_id);
+		let newCategory = categories.find(cat => cat.id === data.category_id);
 
-		if (!oldCategory || !newCategory) {
+		if (!newCategory) {
 			toast.error("Invalid category selection");
 			return;
+		}
+
+		if (!oldCategory) {
+			oldCategory = {
+				id: 0,
+				name: "Unknown",
+			}
 		}
 
 		const hint = `Status changed from <b>${oldCategory.name}</b> to <b>${newCategory.name}</b>`;
