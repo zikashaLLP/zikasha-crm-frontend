@@ -2,8 +2,7 @@ import {
 	LayoutDashboard,
 	Settings,
 	Menu,
-	ChevronLeft,
-	ChevronRight,
+	PanelLeft,
 	Users,
 	BookUser,
 } from "lucide-react";
@@ -152,11 +151,11 @@ export default function Sidebar() {
 					<div className="relative">
 						<div className="absolute -top-0 -right-12 z-50">
 							<Button
-								variant="outline"
+								variant="ghost"
 								size="icon"
 								onClick={() => setCollapsed(!collapsed)}
 							>
-								{collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+								<PanelLeft />
 							</Button>
 						</div>
 

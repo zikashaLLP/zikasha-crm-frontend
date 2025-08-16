@@ -20,6 +20,19 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import {
+	Command,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
+	CommandList,
+} from "@/components/ui/command";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -32,9 +45,9 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { format } from "date-fns";
-import { CalendarIcon, Plus } from "lucide-react";
+import { CalendarIcon, Plus, Check, ChevronsUpDown } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import AddCustomerModal from "@/components/modals/add-customer-modal";
 import { toast } from "sonner";
 import api from "@/api/axios";
@@ -97,6 +110,7 @@ export default function Inquiry() {
 	const [customers, setCustomers] = useState<Customer[]>([]);
 	const [categories, setCategories] = useState<Category[]>([]);
 	const [openCustomerModal, setOpenCustomerModal] = useState<boolean>(false);
+	const [openCustomerCombo, setOpenCustomerCombo] = useState<boolean>(false);
 
 	const navigate = useNavigate();
 
@@ -183,7 +197,7 @@ export default function Inquiry() {
 										</FormControl>
 									</FormItem>
 								</div>
-								{/* Customer Select + Add */}
+								{/* Customer Combobox + Add */}
 								<div className="flex items-end gap-2">
 									<FormField
 										control={form.control}
@@ -191,24 +205,51 @@ export default function Inquiry() {
 										render={({ field }) => (
 											<FormItem className="flex-1">
 												<FormLabel>Customer</FormLabel>
-												<Select
-													onValueChange={handleSelectChange('customer_id')}
-													value={String(field.value)}
-													key={`customer-${field.value}`} // Force re-render on value change
-												>
-													<FormControl>
-														<SelectTrigger className="w-full">
-															<SelectValue placeholder="Select customer" />
-														</SelectTrigger>
-													</FormControl>
-													<SelectContent>
-														{customers.map((cust: Customer) => (
-															<SelectItem key={cust.id} value={String(cust.id)}>
-																{cust.name}
-															</SelectItem>
-														))}
-													</SelectContent>
-												</Select>
+												<Popover open={openCustomerCombo} onOpenChange={setOpenCustomerCombo}>
+													<PopoverTrigger asChild>
+														<FormControl>
+															<Button
+																variant="outline"
+																role="combobox"
+																aria-expanded={openCustomerCombo}
+																className="w-full justify-between"
+															>
+																{field.value && field.value > 0
+																	? customers.find((customer) => customer.id === field.value)?.name
+																	: "Select customer..."}
+																<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+															</Button>
+														</FormControl>
+													</PopoverTrigger>
+													<PopoverContent className="w-full p-0">
+														<Command>
+															<CommandInput placeholder="Search customer..." />
+															<CommandList>
+																<CommandEmpty>No customer found.</CommandEmpty>
+																<CommandGroup>
+																	{customers.map((customer) => (
+																		<CommandItem
+																			key={customer.id}
+																			value={customer.name}
+																			onSelect={() => {
+																				form.setValue("customer_id", customer.id);
+																				setOpenCustomerCombo(false);
+																			}}
+																		>
+																			<Check
+																				className={cn(
+																					"mr-2 h-4 w-4",
+																					field.value === customer.id ? "opacity-100" : "opacity-0"
+																				)}
+																			/>
+																			{customer.name}
+																		</CommandItem>
+																	))}
+																</CommandGroup>
+															</CommandList>
+														</Command>
+													</PopoverContent>
+												</Popover>
 												<FormMessage />
 											</FormItem>
 										)}
