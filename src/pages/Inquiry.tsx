@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
 	Select,
 	SelectContent,
@@ -44,7 +44,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { CalendarIcon, Plus, Check, ChevronsUpDown } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -52,6 +52,7 @@ import AddCustomerModal from "@/components/modals/add-customer-modal";
 import { toast } from "sonner";
 import api from "@/api/axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "@/contexts/AuthContext";
 
 // Zod schema
 const inquirySchema = z.object({
@@ -111,29 +112,62 @@ export default function Inquiry() {
 	const [categories, setCategories] = useState<Category[]>([]);
 	const [openCustomerModal, setOpenCustomerModal] = useState<boolean>(false);
 	const [openCustomerCombo, setOpenCustomerCombo] = useState<boolean>(false);
+	const [settings, setSettings] = useState<any | null>(null);
+
+	const { user } = useContext(AuthContext);
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function fetchData(): Promise<void> {
 			try {
-				const [customersRes, categoriesRes] = await Promise.all([
+				const [customersRes, categoriesRes, settingsRes] = await Promise.all([
 					api.get("/customers"),
 					api.get<ApiResponse<Category[]>>("/categories"),
+					api.get(`/agencies/${user.agency.id}/settings`),
 				]);
 				setCustomers(customersRes.data.customers);
 				setCategories(categoriesRes.data.data || categoriesRes.data);
+				setSettings(settingsRes.data.settings);
 			} catch (error) {
-				const apiError = error as ApiError;
-				console.error("Error fetching data:", apiError);
 				toast.error("Failed to load customers or categories");
 			}
 		}
 		fetchData();
 	}, []);
 
+	useEffect(() => {
+		if (settings) {
+			if (settings.location) {
+				form.setValue("location", settings.location);
+			}
+			if (settings.followup_date && settings.followup_date !== "" && settings.followup_date !== "empty") {
+				const date = getDefaultFollowupDate(settings.followup_date);
+				form.setValue("followup_date", date ? date.toUTCString() : "");
+			}
+			if (settings.category) {
+				form.setValue("category_id", settings.category);
+			}
+		}
+	}, [settings]);
+
+	const  getDefaultFollowupDate = (day: string) => {
+		if (day === "today") {
+			return new Date();
+		}
+		if (day === "tomorrow") {
+			const tomorrow = new Date();
+			tomorrow.setDate(tomorrow.getDate() + 1);
+			return set(tomorrow, { hours: 10, minutes: 0, seconds: 0, milliseconds: 0 });
+		}
+		if (day === "next_week") {
+			const nextWeek = new Date();
+			nextWeek.setDate(nextWeek.getDate() + 7);
+			return set(nextWeek, { hours: 10, minutes: 0, seconds: 0, milliseconds: 0 });
+		}
+	}
+
 	const onSubmit = async (data: InquiryFormValues): Promise<void> => {
-		console.log("Submitting inquiry data:", data);
 
 		try {
 			await api.post<ApiResponse<any>>("/inquiries", data);
@@ -145,7 +179,6 @@ export default function Inquiry() {
 			}, 1000);
 		} catch (error) {
 			const apiError = error as ApiError;
-			console.error("Error creating inquiry:", apiError);
 			toast.error(apiError.response?.data?.message || "Something went wrong while creating inquiry");
 		}
 	};
@@ -224,13 +257,13 @@ export default function Inquiry() {
 													<PopoverContent className="w-full p-0">
 														<Command>
 															<CommandInput placeholder="Search customer..." />
-															<CommandList>
+															<CommandList className="max-h-40 md:max-h-[300px]">
 																<CommandEmpty>No customer found.</CommandEmpty>
 																<CommandGroup>
 																	{customers.map((customer) => (
 																		<CommandItem
 																			key={customer.id}
-																			value={customer.name}
+																			value={`${customer.name} (${customer.phone})`}
 																			onSelect={() => {
 																				form.setValue("customer_id", customer.id);
 																				setOpenCustomerCombo(false);
@@ -242,7 +275,12 @@ export default function Inquiry() {
 																					field.value === customer.id ? "opacity-100" : "opacity-0"
 																				)}
 																			/>
-																			{customer.name}
+																			<div>
+																				<div className="name">{customer.name}</div>
+																				<div className="text-sm text-muted-foreground">
+																					{customer.phone ? customer.phone : '-'}
+																				</div>
+																			</div>
 																		</CommandItem>
 																	))}
 																</CommandGroup>

@@ -323,7 +323,7 @@ export default function Dashboard() {
                         }`}
                       >
                         <td
-                          className="px-4 py-2 cursor-pointer"
+                          className="px-4 py-2 cursor-pointer font-semibold"
                           onClick={() => handleContactClick(inquiry)}
                         >
                           {inquiry.Customer?.name || "N/A"}
