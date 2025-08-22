@@ -121,7 +121,9 @@ export default function Sidebar() {
 			{/* Mobile Sidebar */}
 			{!isDesktop && (
 				<div className="md:hidden z-50">
-					<img src={ logo.logo } className="fixed top-3 left-4 z-50 h-[40px]" />
+					<Link to="/dashboard">
+						<img src={ logo.logo } className="fixed top-3 left-4 z-50 h-[40px]" />
+					</Link>
 					<Sheet open={open} onOpenChange={setOpen}>
 						<SheetTrigger asChild>
 							<Button
@@ -160,6 +162,7 @@ export default function Sidebar() {
 						</div>
 
 						<div>
+							<Link to="/dashboard">
 							{
 								collapsed ? (
 									<img
@@ -175,6 +178,7 @@ export default function Sidebar() {
 									/>
 								)
 							}
+							</Link>
 						</div>
 						<NavLinks collapsed={collapsed} />
 					</div>
