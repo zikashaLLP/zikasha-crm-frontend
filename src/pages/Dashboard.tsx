@@ -615,7 +615,6 @@ export default function Dashboard() {
               <TabsList className="grid w-full grid-cols-3 p-1 h-auto bg-gray-100">
                 <TabsTrigger className="p-2" value="view-log">View Log</TabsTrigger>
                 <TabsTrigger className="p-2" value="add-log">Add Log</TabsTrigger>
-                <TabsTrigger className="p-2" value="add-visit">Add Visit</TabsTrigger>
               </TabsList>
               <TabsContent value="view-log">
                 <div className="p-4 border rounded-md max-h-[60vh] overflow-y-auto">
@@ -632,7 +631,6 @@ export default function Dashboard() {
                   />
                 </div>
               </TabsContent>
-              <TabsContent value="add-visit">Add Visit</TabsContent>
             </Tabs>
           )}
         </DialogContent>

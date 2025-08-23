@@ -51,7 +51,7 @@ import { cn } from "@/lib/utils";
 import AddCustomerModal from "@/components/modals/add-customer-modal";
 import { toast } from "sonner";
 import api from "@/api/axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "@/contexts/AuthContext";
 
 // Zod schema
@@ -210,7 +210,9 @@ export default function Inquiry() {
 		<div className="max-w-7xl mx-auto">
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-lg">Create New Inquiry</CardTitle>
+					<CardTitle className="text-lg flex items-center gap-2">
+						Create New Inquiry <span className="font-normal">or <Link className="underline px-2 py-1 rounded hover:bg-gray-100 hover:text-blue-500" to="/dashboard/inquiries/import"> Import inquiries</Link></span>
+					</CardTitle>
 					<CardDescription>Fill out the form below to create a new inquiry.</CardDescription>
 				</CardHeader>
 
