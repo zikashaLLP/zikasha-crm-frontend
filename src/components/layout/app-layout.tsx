@@ -49,7 +49,7 @@ export default function AppLayout() {
 				className="bg-white shadow sticky top-0 right-0 z-10 h-[60px]"
 			>
 				<div className="flex h-full justify-end items-center px-4 md:px-6">
-					<DropdownMenu>
+					<DropdownMenu modal={false}>
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="ghost"

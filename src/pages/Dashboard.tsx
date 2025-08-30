@@ -351,7 +351,7 @@ export default function Dashboard() {
                           {formatDate(inquiry.createdAt)}
                         </td>
                         <td className="px-4 py-2">
-                          <DropdownMenu>
+                          <DropdownMenu modal={false}>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" size="icon">
                                 <MoreVerticalIcon className="h-5 w-5" />
@@ -390,7 +390,7 @@ export default function Dashboard() {
                   <div key={inquiry.id} className="p-4 mb-10 relative border rounded-lg">
                     <div className="p-0">
                       <div className="flex justify-between items-center">
-                        <DropdownMenu>
+                        <DropdownMenu modal={false}>
                             <DropdownMenuTrigger asChild>
                               <Button className="absolute top-2 right-2" variant="ghost" size="icon">
                                 <MoreVerticalIcon className="h-5 w-5" />

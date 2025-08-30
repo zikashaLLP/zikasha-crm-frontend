@@ -336,7 +336,7 @@ function CategoryCard({ category, deleteCategory, editCategory }: CategoryCardPr
                         <span className="text-xs text-gray-500 mt-1">Excluded from inquiries</span>
                     )}
                 </div>
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
                             <MoreVerticalIcon className="h-5 w-5" />
