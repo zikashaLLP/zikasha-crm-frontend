@@ -168,7 +168,7 @@ function AddLogForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Follow-up Date</FormLabel>
-								<Popover>
+								<Popover modal={true}>
 									<PopoverTrigger asChild>
 										<FormControl>
 											<Button
