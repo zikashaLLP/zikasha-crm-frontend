@@ -292,7 +292,6 @@ const ImportInquiry: React.FC = () => {
       });
 
       if (response.data) {
-        console.log('Upload successful:', response.data);
         setUploadSuccess(true);
         
         // Reset form after successful upload

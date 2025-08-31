@@ -105,14 +105,6 @@ export default function Sidebar() {
 					</Link>
 				);
 			})}
-			{/* <Button
-				variant="ghost"
-				className="w-full justify-start p-3 hover:bg-red-50 hover:text-red-500"
-				onClick={handleLogout}
-			>
-				<LogOut className="h-4 w-4 mr-2" />
-				{!collapsed && <span>Logout</span>}
-			</Button> */}
 		</nav>
 	);
 

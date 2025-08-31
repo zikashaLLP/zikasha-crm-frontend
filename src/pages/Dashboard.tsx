@@ -86,7 +86,7 @@ interface CategoryCardProps {
 export default function Dashboard() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [ categoriesLoaded, setCategoriesLoaded ] = useState<boolean>(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | string | null>('all');
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | string | null>('today');
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [inquiriesCount, setinquiriesCount] = useState<number>(0);
   const [loadingInquiries, setLoadingInquiries] = useState<boolean>(false);
@@ -124,9 +124,6 @@ export default function Dashboard() {
     let url = selectedCategoryId
       ? `/inquiries?category_id=${selectedCategoryId}`
       : "/inquiries";
-
-    console.log("selectedCategoryId", selectedCategoryId, categoriesLoaded);
-    
 
     if (selectedCategoryId === 'all' && ! categoriesLoaded) {
       return; // Don't fetch inquiries if categories are not loaded yet
@@ -491,7 +488,7 @@ export default function Dashboard() {
 
       {/* Delete Inquiry Dialog */}
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <DialogContent>
+        <DialogContent aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>Delete Inquiry</DialogTitle>
           </DialogHeader>
@@ -602,7 +599,10 @@ export default function Dashboard() {
 
       {/* Inquiry Details Modal */}
       <Dialog open={showInquiryModal} onOpenChange={setShowInquiryModal}>
-        <DialogContent className="min-w-fit max-h-[90vh] overflow-hidden">
+        <DialogContent
+          className="min-w-fit max-h-[90vh] overflow-hidden"
+          aria-describedby={undefined}
+        >
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <User className="w-5 h-5" />

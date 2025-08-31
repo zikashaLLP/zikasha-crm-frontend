@@ -1,6 +1,6 @@
 // components/layout/app-layout.tsx
 import Sidebar from "@/components/layout/sidebar";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useSidebar } from "@/contexts/sidebar-context";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { AuthContext } from "@/contexts/AuthContext";
 import { useContext } from "react";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 export default function AppLayout() {
 	const { collapsed } = useSidebar();
@@ -73,6 +73,12 @@ export default function AppLayout() {
 								</div>
 							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
+							<DropdownMenuItem asChild>
+								<Link to="/dashboard/profile" className="flex items-center w-full">
+									<User className="w-4 h-4 mr-2" />
+									<span>Profile</span>
+								</Link>
+							</DropdownMenuItem>
 							<DropdownMenuItem onClick={handleLogout}>
 								<LogOut className="text-red-700 w-4 h-4" />
 								<span className="text-red-700">Logout</span>

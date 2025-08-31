@@ -4,6 +4,7 @@ import Login from "@/pages/Login";
 import AdminLogin from "@/pages/superadmin/AdminLogin";
 import Dashboard from "@/pages/Dashboard";
 import Settings from "@/pages/Settings";
+import Profile from "@/pages/Profile";
 import Inquiry from "@/pages/Inquiry";
 import Customers from "@/pages/Customers";
 import NotFound from "@/pages/NotFound";
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="staff" element={<StaffPage />} />
             <Route path="customers" element={<Customers />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
           <Route path="*" element={<NotFound />} />
       </Routes>
