@@ -17,6 +17,9 @@ self.addEventListener('push', (event) => {
     data = event.data.json();
   }
 
+  console.log('Push received:', data);
+  
+
   const title = data.title || 'Followup Reminder';
   const options = {
     body: data.body || 'Your task is due in 10 minutes!',
