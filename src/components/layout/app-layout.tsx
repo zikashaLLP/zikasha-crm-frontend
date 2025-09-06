@@ -70,6 +70,10 @@ export default function AppLayout() {
         };
     }, [lastScrollY]);
 
+	const checkIOSDevice = () => {
+		return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+	};
+
     const handleLogout = () => {
 		// Implement your logout logic here
 		localStorage.removeItem("zikasha_crm_token");
@@ -171,7 +175,7 @@ export default function AppLayout() {
                 </div>
             </main>
 
-			<footer className="md:hidden bg-white h-[60px] z-10 shadow fixed bottom-0 right-0 left-0 transition-transform duration-300 md:left-64 flex items-center px-6 pb-4 border-t">
+			<footer className={`md:hidden bg-white h-[60px] z-10 shadow fixed bottom-0 right-0 left-0 transition-transform duration-300 md:left-64 flex items-center border-t px-6 ${checkIOSDevice() ? 'pb-7' : ''}`}>
 				<div className="flex justify-between items-center gap-6 max-w-lg w-full mx-auto">
 					<Link 
 						to="/dashboard" 
