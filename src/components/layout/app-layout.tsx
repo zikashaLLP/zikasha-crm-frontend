@@ -171,7 +171,7 @@ export default function AppLayout() {
                 </div>
             </main>
 
-			<footer className="md:hidden bg-white h-[50px] z-10 shadow fixed bottom-0 right-0 left-0 transition-transform duration-300 md:left-64 flex items-center px-6 border-t">
+			<footer className="md:hidden bg-white h-[60px] z-10 shadow fixed bottom-0 right-0 left-0 transition-transform duration-300 md:left-64 flex items-center px-6 pb-2 border-t">
 				<div className="flex justify-between items-center gap-6 max-w-lg w-full mx-auto">
 					<Link 
 						to="/dashboard" 
