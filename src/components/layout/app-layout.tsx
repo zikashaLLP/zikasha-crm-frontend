@@ -71,7 +71,7 @@ export default function AppLayout() {
     }, [lastScrollY]);
 
 	const checkIOSDevice = () => {
-		return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+		return /iPad|iPhone|iPod/.test(navigator.userAgent);
 	};
 
     const handleLogout = () => {
