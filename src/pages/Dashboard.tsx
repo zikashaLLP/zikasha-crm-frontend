@@ -237,7 +237,7 @@ export default function Dashboard() {
       </div>
 
       {/* Categories Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 mb-6">
         {/* Add an "All" card */}
         <CategoryCard
           category={{ id: 'all', name: "All" }}
@@ -286,7 +286,7 @@ export default function Dashboard() {
       </div>
 
       {/* Inquiries list */}
-      <section>
+      <section className="pb-8">
         <h2 className="mb-4 text-base font-semibold">
           {getSectionTitle()} <Badge className="ml-2">{inquiriesCount}</Badge>
         </h2>
@@ -298,9 +298,9 @@ export default function Dashboard() {
         ) : (
           <>
             {isDesktop && (
-              <div className="overflow-x-auto rounded-md border mb-8">
+              <div className="overflow-x-auto rounded-md border">
                 <table className="w-full table-auto border-collapse bg-white">
-                  <thead className="bg-gray-100 border-b">
+                  <thead className="border-b">
                     <tr>
                       <th className="px-4 py-2 text-left font-semibold">Client</th>
                       <th className="px-4 py-2 text-left font-semibold">Contact No.</th>
@@ -654,10 +654,10 @@ function CategoryCard({ category, selected, onClick }: CategoryCardProps) {
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      className={`cursor-pointer rounded-lg border p-4 transition ${
+      className={`cursor-pointer rounded-lg border px-3 py-2 md:p-4 transition ${
         selected
-          ? "ring-2 ring-blue-500 bg-blue-100"
-          : "border hover:shadow-sm"
+          ? "ring-2 ring-blue-500 bg-blue-50"
+          : "border hover:shadow-sm bg-white"
       }`}
     >
       <h3 className="font-medium text-gray-900">{category.name}</h3>

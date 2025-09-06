@@ -113,15 +113,13 @@ export default function Sidebar() {
 			{/* Mobile Sidebar */}
 			{!isDesktop && (
 				<div className="md:hidden z-50">
-					<Link to="/dashboard">
-						<img src={ logo.logo } className="fixed top-3 left-4 z-50 h-[40px]" />
-					</Link>
 					<Sheet open={open} onOpenChange={setOpen}>
 						<SheetTrigger asChild>
 							<Button
 								variant="outline"
 								size="icon"
-								className="fixed top-3 right-15 z-50"
+								id="mobile-menu-toggle"
+								className="fixed top-3 right-15 z-50 hidden"
 							>
 								<Menu className="h-5 w-5" />
 							</Button>

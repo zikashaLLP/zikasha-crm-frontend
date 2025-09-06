@@ -32,6 +32,7 @@ export default function App() {
             </PrivateRoute>
           }>
             <Route index element={<Dashboard />} />
+            <Route path="inquiries" element={<Dashboard />} />
             <Route path="inquiries/new" element={<Inquiry />} />
             <Route path="inquiries/import" element={<ImportInquiry />} />
             <Route path="staff" element={<StaffPage />} />
