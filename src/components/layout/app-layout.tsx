@@ -175,7 +175,7 @@ export default function AppLayout() {
                 </div>
             </main>
 
-			<footer className={`md:hidden bg-white z-10 shadow fixed bottom-0 right-0 left-0 transition-transform duration-300 md:left-64 flex items-center border-t px-6 pt-2 ${checkIOSDevice() ? 'pb-10' : 'pb-8'}`}>
+			<footer className={`md:hidden bg-white z-10 shadow fixed bottom-0 right-0 left-0 transition-transform duration-300 md:left-64 flex items-center border-t px-6 pt-2 ${checkIOSDevice() ? 'pb-10' : 'pb-2'}`}>
 				<div className="flex justify-between items-center gap-6 max-w-lg w-full mx-auto">
 					<Link 
 						to="/dashboard" 
