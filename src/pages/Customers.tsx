@@ -336,7 +336,7 @@ export default function CustomersPage() {
             </Button>
             
             <div className="flex items-center gap-1">
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+              {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
                 const page = i + 1;
                 return (
                   <Button
