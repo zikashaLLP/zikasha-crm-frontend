@@ -2,10 +2,10 @@
   "name": "Zikasha CRM",
   "short_name": "Zikasha",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "any",
   "background_color": "#ffffff",
-  "theme_color": "#1976d2",
+  "theme_color": "#fff",
   "description": "Zikasha CRM allow you to manage your inquiries with your team and customers.",
    "display_override": ["window-controls-overlay"],
   "icons": [
