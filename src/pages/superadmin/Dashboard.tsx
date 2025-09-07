@@ -414,7 +414,9 @@ export default function SuperadminDashboard() {
 
 			{/* Agency Dialog */}
 			<Dialog open={agencyDialogOpen} onOpenChange={setAgencyDialogOpen}>
-				<DialogContent>
+				<DialogContent
+					className="top-5 translate-y-0 md:translate-y-1/2"
+				>
 					<DialogHeader>
 						<DialogTitle>
 							{editingAgency ? "Update Agency" : "Create Agency"}

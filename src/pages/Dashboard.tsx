@@ -488,7 +488,10 @@ export default function Dashboard() {
 
       {/* Delete Inquiry Dialog */}
       <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <DialogContent aria-describedby={undefined}>
+        <DialogContent 
+          aria-describedby={undefined}
+          className="top-5 translate-y-0 md:translate-y-1/2"
+        >
           <DialogHeader>
             <DialogTitle>Delete Inquiry</DialogTitle>
           </DialogHeader>

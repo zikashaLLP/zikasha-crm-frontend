@@ -230,7 +230,7 @@ export default function CategorySettings() {
                         </Button>
                     </DialogTrigger>
 
-                    <DialogContent className="sm:max-w-[425px]">
+                    <DialogContent className="sm:max-w-[425px] top-5 translate-y-0 md:translate-y-1/2">
                         <DialogHeader>
                             <DialogTitle>
                                 {editingCategory ? "Edit Category" : "Create New Category"}
