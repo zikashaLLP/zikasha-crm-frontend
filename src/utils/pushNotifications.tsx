@@ -56,7 +56,7 @@ export async function subscribeToPushNotifications(userId: number) {
 
     if (!subscription) {
       // Create new subscription
-      const vapidPublicKey = 'BDhp8BMZThCSDJVoPRVPCKtCQd3-EkcbD-16jg9e128eqDQkrXa_dgK3LIm2UpUGNXqTmWxqi_Op1zMEJVl_3Fc'; // Replace with your VAPID key
+      const vapidPublicKey = 'BMIaNrhppTWec3Ue-FRDUs_a9M2wfR82PU3GfnCO1V7IaSnt7ie6TUXMZPM1llY_XVXEVFI_EgwE0x1qfKJy0SI'; // Replace with your VAPID key
       subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
