@@ -40,7 +40,7 @@ export async function subscribeToPushNotifications(userId: number) {
     }
 
     // Register service worker
-    const registration = await navigator.serviceWorker.register('/sw.js');
+    const registration = await navigator.serviceWorker.register('https://realestatecrm.zikasha.com/sw.js');
     console.log('Service Worker registered:', registration);
 
     // Wait for service worker to be ready

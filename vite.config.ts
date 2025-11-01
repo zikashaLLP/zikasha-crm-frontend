@@ -1,13 +1,15 @@
-import path from "path"
-import tailwindcss from "@tailwindcss/vite"
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa'
+import path from "path";
+import react from '@vitejs/plugin-react';
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vite.dev/config/
 export default defineConfig({
+  publicDir: 'public', // ensures all files in /public are copied to dist
   plugins: [
-    react(), 
+    react(),
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
@@ -28,6 +30,16 @@ export default defineConfig({
           }
         ]
       }
+    }),
+    // Copy sw.js from public to dist root
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'public/sw.js',
+          dest: '', // root of dist
+          rename: 'sw.js', // ensure correct name
+        }
+      ]
     })
   ],
   resolve: {
@@ -35,4 +47,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-})
+  build: {
+    outDir: 'dist', // output folder
+  }
+});
