@@ -209,10 +209,18 @@ export default function Inquiry() {
 	return (
 		<div className="max-w-7xl mx-auto">
 			<Card>
-				<CardHeader>
-					<CardTitle className="text-lg flex items-center gap-2">
-						Create New Inquiry <span className="font-normal">or <Link className="underline px-2 py-1 rounded hover:bg-gray-100 hover:text-blue-500" to="/dashboard/inquiries/import"> Import inquiries</Link></span>
-					</CardTitle>
+				<CardHeader className="space-y-3">
+					<div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+						<CardTitle className="text-lg md:text-xl font-semibold tracking-tight">
+							Create New Inquiry
+						</CardTitle>
+						<Link
+							to="/dashboard/inquiries/import"
+							className="inline-flex w-fit items-center rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-100"
+						>
+							Import inquiries
+						</Link>
+					</div>
 					<CardDescription>Fill out the form below to create a new inquiry.</CardDescription>
 				</CardHeader>
 
