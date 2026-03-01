@@ -201,7 +201,7 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
@@ -230,13 +230,13 @@ export default function UsersPage() {
 
       {/* Search and Filters */}
       <div className="flex gap-4 mb-6">
-        <div className="relative flex-1 max-w-sm">
+        <div className="relative flex-1 max-w-sm bg">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <Input
             placeholder="Search users..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-white"
           />
         </div>
       </div>

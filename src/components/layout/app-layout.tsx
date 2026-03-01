@@ -206,26 +206,26 @@ export default function AppLayout() {
 							<DropdownMenuTrigger asChild>
 								<UsersIcon className="h-5 w-5" />
 							</DropdownMenuTrigger>
-							<DropdownMenuContent className="w-screen" align="end">
-								<DropdownMenuItem asChild>
-									<Link 
-										to="/dashboard/customers" 
-										className={`flex items-center w-full p-2 ${isActivePath('/dashboard/customers') ? 'font-semibold' : ''}`}
-									>
-										<Users className="w-4 h-4 mr-2" />
-										<span>Customers</span>
-									</Link>
-								</DropdownMenuItem>
-								<DropdownMenuItem asChild>
-									<Link 
-										to="/dashboard/staff" 
-										className={`flex items-center w-full ${isActivePath('/dashboard/staff') ? 'font-semibold' : ''}`}
-									>
-										<BookUser className="w-4 h-4 mr-2" />
-										<span>Staff</span>
-									</Link>
-								</DropdownMenuItem>
-							</DropdownMenuContent>
+								<DropdownMenuContent className="w-screen px-2 py-2 mb-2 rounded-b-none shadow-none" align="end">
+									<DropdownMenuItem asChild>
+										<Link 
+											to="/dashboard/customers" 
+											className={`flex min-h-11 items-center w-full rounded-md px-3 py-2 ${isActivePath('/dashboard/customers') ? 'font-semibold' : ''}`}
+										>
+											<Users className={`w-4 h-4 mr-3 ${isActivePath('/dashboard/customers') ? 'text-black' : ''}`} />
+											<span>Customers</span>
+										</Link>
+									</DropdownMenuItem>
+									<DropdownMenuItem asChild>
+										<Link 
+											to="/dashboard/staff" 
+											className={`flex min-h-11 items-center w-full rounded-md px-3 py-2 ${isActivePath('/dashboard/staff') ? 'font-semibold' : ''}`}
+										>
+											<BookUser className={`w-4 h-4 mr-3 ${isActivePath('/dashboard/staff') ? 'text-black' : ''}`} />
+											<span>Staff</span>
+										</Link>
+									</DropdownMenuItem>
+								</DropdownMenuContent>
 						</DropdownMenu>
 					</Link>
 					
