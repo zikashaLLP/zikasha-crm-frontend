@@ -104,7 +104,7 @@ export default function AppLayout() {
             <Sidebar />
 
             <header
-                className={`bg-white h-[60px] z-10 shadow fixed top-0 right-0 left-0 transition-transform duration-300 ${
+                className={`bg-white h-[60px] z-10 border-t shadow fixed top-0 right-0 left-0 transition-transform duration-300 ${
                     collapsed ? "md:left-16" : "md:left-64"
                 } ${
                     !isHeaderVisible ? '-translate-y-full' : 'translate-y-0'
@@ -175,38 +175,52 @@ export default function AppLayout() {
                 </div>
             </main>
 
-			<footer className={`md:hidden bg-white z-10 shadow fixed bottom-0 right-0 left-0 transition-transform duration-300 md:left-64 flex items-center border-t px-6 pt-2 ${checkIOSDevice() ? 'pb-10' : 'pb-2'}`}>
-				<div className="flex justify-between items-center gap-6 max-w-lg w-full mx-auto">
+			<footer className={`md:hidden bg-white z-10 shadow fixed bottom-0 right-0 left-0 transition-transform duration-300 md:left-64 flex items-center border-t px-4 pt-2 ${checkIOSDevice() ? 'pb-10' : 'pb-2'}`}>
+				<div className="flex justify-between items-center gap-2 max-w-lg w-full mx-auto">
 					<Link 
 						to="/dashboard" 
-						className={`flex justify-center items-center w-7 h-7 rounded ${isActivePath('/dashboard') ? 'text-white bg-primary' : 'text-gray-500'}`}
+						className={`flex min-w-12 flex-col items-center gap-1 ${isActivePath('/dashboard') ? 'text-primary' : 'text-gray-500'}`}
 					>
-						<LucideLayoutDashboard className="h-5 w-5" />
+						<span className={`flex justify-center items-center w-7 h-7 rounded ${isActivePath('/dashboard') ? 'text-white bg-primary' : 'text-gray-500'}`}>
+							<LucideLayoutDashboard className="h-5 w-5" />
+						</span>
+						<span className="hidden min-[340px]:inline text-[11px] leading-none font-medium">Dashboard</span>
 					</Link>
 					
 					<Link 
 						to="/dashboard/inquiries"
-						className={`flex justify-center items-center w-7 h-7 rounded ${isActivePath('/dashboard/inquiries') ? 'text-white bg-primary' : 'text-gray-500'}`}
+						className={`flex min-w-12 flex-col items-center gap-1 ${isActivePath('/dashboard/inquiries') ? 'text-primary' : 'text-gray-500'}`}
 					>
-						<ListTodoIcon className="h-5 w-5" />
+						<span className={`flex justify-center items-center w-7 h-7 rounded ${isActivePath('/dashboard/inquiries') ? 'text-white bg-primary' : 'text-gray-500'}`}>
+							<ListTodoIcon className="h-5 w-5" />
+						</span>
+						<span className="hidden min-[340px]:inline text-[11px] leading-none font-medium">Inquiries</span>
 					</Link>
 					
 					<Link 
 						to="/dashboard/inquiries/new"
-						className={`flex justify-center items-center w-7 h-7 rounded ${location.pathname === '/dashboard/inquiries/new' ? 'text-white bg-primary' : 'text-gray-500'}`}
+						className={`flex min-w-12 flex-col items-center gap-1 ${location.pathname === '/dashboard/inquiries/new' ? 'text-primary' : 'text-gray-500'}`}
 					>
-						<PlusCircleIcon className="h-5 w-5" />
+						<span className={`flex justify-center items-center w-7 h-7 rounded ${location.pathname === '/dashboard/inquiries/new' ? 'text-white bg-primary' : 'text-gray-500'}`}>
+							<PlusCircleIcon className="h-5 w-5" />
+						</span>
+						<span className="hidden min-[340px]:inline text-[11px] leading-none font-medium">Add</span>
 					</Link>
 
-					<Link 
-						to="/dashboard/customers"
-						className={`flex justify-center items-center w-7 h-7 rounded ${isActivePath('/dashboard/customers') || isActivePath('/dashboard/staff') ? 'text-white bg-primary' : 'text-gray-500'}`}
-					>
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<UsersIcon className="h-5 w-5" />
-							</DropdownMenuTrigger>
-								<DropdownMenuContent className="w-screen px-2 py-2 mb-2 rounded-b-none shadow-none" align="end">
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<button
+								type="button"
+								className={`flex min-w-12 flex-col items-center gap-1 ${isActivePath('/dashboard/customers') || isActivePath('/dashboard/staff') ? 'text-primary' : 'text-gray-500'}`}
+								aria-label="Open users menu"
+							>
+								<span className={`flex justify-center items-center w-7 h-7 rounded ${isActivePath('/dashboard/customers') || isActivePath('/dashboard/staff') ? 'text-white bg-primary' : 'text-gray-500'}`}>
+									<UsersIcon className="h-5 w-5" />
+								</span>
+								<span className="hidden min-[340px]:inline text-[11px] leading-none font-medium">Users</span>
+							</button>
+						</DropdownMenuTrigger>
+								<DropdownMenuContent className="w-screen px-2 py-2 mb-1 rounded-b-none shadow-none" align="end">
 									<DropdownMenuItem asChild>
 										<Link 
 											to="/dashboard/customers" 
@@ -227,13 +241,15 @@ export default function AppLayout() {
 									</DropdownMenuItem>
 								</DropdownMenuContent>
 						</DropdownMenu>
-					</Link>
 					
 					<Link 
 						to="/dashboard/settings"
-						className={`flex justify-center items-center w-7 h-7 rounded ${isActivePath('/dashboard/settings') ? 'text-white bg-primary' : 'text-gray-500'}`}
+						className={`flex min-w-12 flex-col items-center gap-1 ${isActivePath('/dashboard/settings') ? 'text-primary' : 'text-gray-500'}`}
 					>
-						<SettingsIcon className="h-5 w-5" />
+						<span className={`flex justify-center items-center w-7 h-7 rounded ${isActivePath('/dashboard/settings') ? 'text-white bg-primary' : 'text-gray-500'}`}>
+							<SettingsIcon className="h-5 w-5" />
+						</span>
+						<span className="hidden min-[340px]:inline text-[11px] leading-none font-medium">Settings</span>
 					</Link>
 				</div>
 			</footer>

@@ -137,7 +137,7 @@ export default function Sidebar() {
 			{/* Desktop Sidebar */}
 			{isDesktop && (
 				<aside
-					className={`fixed inset-y-0 left-0 border-r bg-background px-2 py-4 hidden md:flex flex-col transition-all duration-200 z-50 ${collapsed ? "w-16" : "w-64"
+					className={`fixed inset-y-0 left-0 border-r border-t bg-background px-2 py-4 hidden md:flex flex-col transition-all duration-200 z-50 ${collapsed ? "w-16" : "w-64"
 						}`}
 				>
 					<div className="relative">
